@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/navigation"></div>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-10 my-4 mx-auto">
+            <h2 class="text-center display-4">Packlon Package Prices</h2>
+
+            <hr>
+            <div class="row no-gutters my-3">
+                <div class="col-md-4 pr-2">
+                    <div class="list-group text-center my-3">
+                        <div class="list-group-item text-white bg-dark">
+                            <h4 class="text-center my-1">Small</h4>
+                        </div>
+                        <div class="list-group-item text-uppercase font-weight-bold">
+                            5€
+                        </div>
+                        <div class="list-group-item text-uppercase font-weight-bold">
+                            Size: 20x30x20 cm
+                        </div>
+                        <div class="list-group-item text-uppercase font-weight-bold">
+                            Up to 3kg
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="list-group text-center bg-alt">
+                        <div href="#" class="list-group-item text-white bg-dark">
+                            <h4 class="text-center my-1">Medium<br></h4>
+                        </div>
+                        <div class="list-group-item text-uppercase font-weight-bold">
+                            10€
+                        </div>
+                        <div class="list-group-item text-uppercase font-weight-bold">
+                            Size: 40x40x40 cm
+                        </div>
+                        <div class="list-group-item text-uppercase font-weight-bold">
+                            Up to 5kg
+                        </div>
+                        <div class="list-group-item bg-inverse">
+                            <button class="btn btn-secondary btn-lg btn-block text-truncate">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 pl-2">
+                    <div class="list-group text-center my-3">
+                        <div  class="list-group-item text-white bg-dark">
+                            <h4 class="text-center my-1">Large</h4>
+                        </div>
+                        <div class="list-group-item text-uppercase font-weight-bold">
+                            20 €
+                        </div>
+                        <div class="list-group-item text-uppercase font-weight-bold">
+                            Size: 75x75x75 cm
+                        </div>
+                        <div class="list-group-item text-uppercase font-weight-bold">
+                            Up to 15kg
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
