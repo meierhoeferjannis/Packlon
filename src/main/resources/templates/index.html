@@ -1,127 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Standard Meta -->
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <!------ Include the above in your HEAD tag ---------->
-    <!-- Site Properties -->
-    <title>Registration</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <title>Title</title>
 </head>
 <body>
-<div class="container">
-    <form th:action="@{/loginPage}" th:method="get">
-        <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
-    </form>
-    <form class="form-horizontal" role="form" th:method="POST" th:object="${account}"  th:action="@{/register}">
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <h2>Register for Packlon</h2>
-                <hr>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="firstName">FirstName</label>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
-                        <input type="text"   class="form-control" id="firstName" name="firstName"
-                               placeholder="John Doe" required autofocus>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle" th:text="${firstNameErrorMessage}">
-                            <!-- Put firstName validation error messages here -->
-                        </span>
-                </div>
-            </div>
-        </div>
-        <!-- New inserte Code -->
-        <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="lastName">LastName</label>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
-                        <input type="text"  name="lastName" class="form-control" id="lastName"
-                               placeholder="John Doe" required autofocus>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle" th:text="${lastNameErrorMessage}">
-                            <!-- Put lastName validation error messages here -->
-                        </span>
-                </div>
-            </div>
-        </div>
-        <!-- New inserte Code -->
-        <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="email">E-Mail Address</label>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
-                        <input type="text" th:field="*{email}" name="email" class="form-control" id="email"
-                               placeholder="you@example.com" required autofocus>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle">
-                            <!-- Put e-mail validation error messages here -->
-                        </span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="password">Password</label>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group has-danger">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
-                        <input type="password" th:field="*{password}" name="password" class="form-control" id="password"
-                               placeholder="Password" required>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle" th:text="${passwordErrorMessage}" >
-
-                        </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-
-                <button  type="submit" class="btn btn-success float-right"><i class="fa fa-user-plus"></i> Register</button>
-            </div>
-        </div>
-    </form>
+<div th:replace="fragments/navigation"></div>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Packlon</h1>
+        <p class="lead">Welcome to Packlon the best choice for your delivery</p>
+    </div>
 </div>
 </body>
+</html>
