@@ -23,7 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {
-            "/css/**", "/image/**", "/fonts/**", "/", "/index", "/prices", "/registration", "/login", "home", "/forgotPassword", "/register"};
+            "/css/**", "/image/**", "/fonts/**", "/", "/index", "/delivery", "/prices", "/registration", "/login", "home", "/forgotPassword", "/register"};
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

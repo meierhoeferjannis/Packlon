@@ -7,11 +7,12 @@ import de.oth.Packlon.entity.LineItem;
 import de.oth.Packlon.entity.Status;
 import de.oth.Packlon.repository.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+@Service
 public class DeliveryService {
     @Autowired
     private DeliveryRepository deliveryRepository;
