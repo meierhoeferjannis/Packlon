@@ -15,14 +15,29 @@ public class Account extends SingelIdEntity<Long> implements UserDetails {
     private String email;
     private String phone;
     private String password;
-
     @OneToOne
     private Customer owner;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Delivery> deliveryList;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Address> addressList;
+    @OneToOne
+    private Address homeAddress;
+    public Account(){
+        addressList = new ArrayList<Address>();
+        deliveryList = new ArrayList<Delivery>();
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
     private Set<AccountRole> roles = new HashSet<>();
 
 

@@ -41,7 +41,7 @@ public class AccountService implements UserDetailsService {
         accountRole.setRole(role);
         accountRole.setAccount(ret);
         ret.addAccountRole(accountRole);
-       return  accountRepository.save(ret);
+        return accountRepository.save(ret);
 
     }
 
@@ -57,6 +57,12 @@ public class AccountService implements UserDetailsService {
 
         return account.get();
     }
+    public Account addDelivery(long accountId, Delivery delivery){
+      Account  account = accountRepository.findById(accountId).get();
+      account.addDelivery(delivery);
+      accountRepository.save(account);
+      return account;
+    }
 
     public boolean existsAccountWithEmail(String email) {
         return accountRepository.existsAccountByEmail(email);
@@ -71,6 +77,10 @@ public class AccountService implements UserDetailsService {
                 );
         return account;
 
+    }
+
+    public Account getAccountByEmail(String email) {
+       return accountRepository.findByEmail(email).get();
     }
 
     public void deleteAccount(long accountId) {

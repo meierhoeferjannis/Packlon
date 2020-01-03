@@ -9,5 +9,6 @@ public class PricesController {
     @RequestMapping(value = "/prices", method = RequestMethod.GET)
     public String prices(){
         return  "prices";
+
     }
 }

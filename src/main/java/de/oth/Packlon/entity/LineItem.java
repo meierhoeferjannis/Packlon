@@ -1,4 +1,5 @@
 package de.oth.Packlon.entity;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +16,7 @@ public class LineItem extends SingelIdEntity<Long> {
 
     public void setAmount(int amount) {
         this.amount = amount;
+
     }
 
     public int getPrice() {
@@ -33,5 +35,8 @@ public class LineItem extends SingelIdEntity<Long> {
         this.pack = pack;
     }
 
+    public void calculatePrice() {
+        this.price = pack.getPrice() * amount;
+    }
 
 }

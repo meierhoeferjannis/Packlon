@@ -1,6 +1,8 @@
 package de.oth.Packlon.entity;
 
 import javax.persistence.*;
+import javax.sound.sampled.Line;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -25,11 +27,27 @@ public class Delivery extends SingelIdEntity<Long> {
     private boolean cashOnDelivery;
     @Temporal(TemporalType.DATE)
     private Date paymentDate;
+    private boolean isPaied;
+
+
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Status> statusList;
     private String paymentReference;
     @OneToMany(cascade = {CascadeType.ALL})
     private List<LineItem> lineItemList;
+
+    public Delivery() {
+        lineItemList = new ArrayList<LineItem>();
+        statusList = new ArrayList<Status>();
+    }
+
+    public boolean getPaied() {
+        return isPaied;
+    }
+
+    public void setPaied(boolean paied) {
+        isPaied = paied;
+    }
 
     public Address getSenderAddress() {
         return senderAddress;
@@ -135,10 +153,21 @@ public class Delivery extends SingelIdEntity<Long> {
         }
     }
 
-    public void removerStatus(Status status) {
+    public void removeStatus(Status status) {
         if (statusList.contains(status)) {
             statusList.remove(status);
         }
+    }
+
+    public void addLineItem(LineItem lineItem) {
+        if (!lineItemList.contains(lineItem)) {
+            lineItemList.add(lineItem);
+        }
+    }
+
+    public void removeLineItem(LineItem lineItem) {
+        if (lineItemList.contains(lineItem))
+            lineItemList.remove(lineItem);
     }
 
 }

@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <!-- Standard Meta -->
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
-    <!-- Site Properties -->
+
     <title>Registration</title>
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <title>Registration</title>
 </head>
 <body>
 <div th:replace="fragments/navigation"></div>
 <div class="container">
-    <form class="form-horizontal" role="form" th:method="POST" th:object="${account}"  th:action="@{/register}">
+    <form class="form-horizontal" role="form" th:method="POST" th:object="${account}" th:action="@{/register}">
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -34,18 +39,12 @@
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
-                        <input type="text"   class="form-control" id="firstName" name="firstName"
+                        <input type="text" class="form-control" th:field="*{owner.firstName}" id="firstName" name="firstName"
                                placeholder="John" required autofocus>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle" th:text="${firstNameErrorMessage}">
-                            <!-- Put firstName validation error messages here -->
-                        </span>
-                </div>
-            </div>
+
         </div>
         <!-- New inserte Code -->
         <div class="row">
@@ -56,20 +55,14 @@
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
-                        <input type="text"  name="lastName" class="form-control" id="lastName"
+                        <input type="text" th:field="*{owner.lastName}" name="lastName" class="form-control" id="lastName"
                                placeholder="Doe" required autofocus>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle" th:text="${lastNameErrorMessage}">
-                            <!-- Put lastName validation error messages here -->
-                        </span>
-                </div>
-            </div>
+
         </div>
-        <!-- New inserte Code -->
+
         <div class="row">
             <div class="col-md-3 field-label-responsive">
                 <label for="email">E-Mail Address</label>
@@ -93,6 +86,85 @@
         </div>
         <div class="row">
             <div class="col-md-3 field-label-responsive">
+                <label for="country">Country</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.country}" name="country" class="form-control"
+                               id="country"
+                               placeholder="germany" required autofocus>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="city">City</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.city}" name="city" class="form-control"
+                               id="city"
+                               placeholder="regensburg" required autofocus>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="street">Street</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.street}" name="street" class="form-control"
+                               id="street"
+                               placeholder="Karoline Ammer Straße 31" required autofocus>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="postCode">PostCode</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="number" th:field="*{homeAddress.postCode}" name="PostCode" class="form-control"
+                               id="PostCode"
+                               placeholder="93049" required autofocus>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="addition">Addition</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.addition}" name="addition" class="form-control"
+                               id="addition"
+                               placeholder="a" required autofocus>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
                 <label for="password">Password</label>
             </div>
             <div class="col-md-6">
@@ -106,7 +178,7 @@
             </div>
             <div class="col-md-3">
                 <div class="form-control-feedback">
-                        <span class="text-danger align-middle" th:text="${passwordErrorMessage}" >
+                        <span class="text-danger align-middle" th:text="${passwordErrorMessage}">
 
                         </span>
                 </div>
@@ -117,7 +189,8 @@
             <div class="col-md-3"></div>
             <div class="col-md-6">
 
-                <button  type="submit" class="btn btn-success float-right"><i class="fa fa-user-plus"></i> Register</button>
+                <button type="submit" class="btn btn-success float-right"><i class="fa fa-user-plus"></i> Register
+                </button>
             </div>
         </div>
     </form>

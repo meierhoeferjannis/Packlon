@@ -23,7 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {
-            "/css/**", "/image/**", "/fonts/**", "/", "/index", "/delivery", "/prices", "/registration", "/login", "home", "/forgotPassword", "/register"};
+            "/css/**", "/image/**", "/fonts/**", "/", "/index", "/delivery", "account", "/prices", "/registration", "/login", "home", "/forgotPassword", "/register"};
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login?error")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/?logout")
+                .logoutSuccessUrl("/")
                 .deleteCookies("remember-me")
                 .permitAll()
                 .and()

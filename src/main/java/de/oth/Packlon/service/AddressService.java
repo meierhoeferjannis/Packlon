@@ -14,14 +14,17 @@ public class AddressService {
     public Address createAddress(Address address) {
         Address ret = addressRepository.save(address);
         return ret;
-
     }
 
     public boolean existsAddress(Address address) {
-        return addressRepository.existsAddressByAdditionAndCityAndCountryAndStreetAndPostCode(address.getAddition(), address.getCity(), address.getCountry(), address.getStreet(), address.getPostCode());
-
+        if (address.getAddition() != null)
+            return addressRepository.existsAddressByAdditionAndCityAndCountryAndStreetAndPostCode(address.getAddition(), address.getCity(), address.getCountry(), address.getStreet(), address.getPostCode());
+        return addressRepository.existsAddressByCityAndCountryAndStreetAndPostCode(address.getCity(), address.getCountry(), address.getStreet(), address.getPostCode());
     }
-    public Address getAddress(Address address){
-        return addressRepository.getAddressByAdditionAndCityAndCountryAndStreetAndPostCode(address.getAddition(), address.getCity(), address.getCountry(), address.getStreet(), address.getPostCode());
+
+    public Address getAddress(Address address) {
+        if (address.getAddition() != null)
+            return addressRepository.getAddressByAdditionAndCityAndCountryAndStreetAndPostCode(address.getAddition(), address.getCity(), address.getCountry(), address.getStreet(), address.getPostCode());
+        return addressRepository.getAddressByCityAndCountryAndStreetAndPostCode(address.getCity(), address.getCountry(), address.getStreet(), address.getPostCode());
     }
 }

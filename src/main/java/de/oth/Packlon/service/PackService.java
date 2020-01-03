@@ -3,6 +3,7 @@ package de.oth.Packlon.service;
 
 import de.oth.Packlon.entity.Pack;
 import de.oth.Packlon.repository.PackRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class PackService {
+    @Autowired
     private PackRepository packRepository;
     public List<Pack> getAllPacks(){
         List<Pack> result = new ArrayList<Pack>();
@@ -24,6 +26,7 @@ public class PackService {
 
     }
     public Pack getPackBySize(String size){
-        return packRepository.getBySizeIsLike(size);
+        return packRepository.findPackBySizeEquals(size);
+
     }
 }
