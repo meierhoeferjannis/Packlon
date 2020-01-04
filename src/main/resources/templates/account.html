@@ -19,9 +19,11 @@
     <thead>
     <tr>
         <th scope="col"> Delivery Id</th>
-        <th scope="col"> Created on</th>
+
         <th scope="col"> Receiver firstname</th>
         <th scope="col"> Receiver lastname</th>
+        <th scope="col"> Cancel Delivery</th>
+        <th scope="col"> Pay Delivery </th>
     </tr>
     </thead>
     <tbody>
@@ -29,16 +31,13 @@
         <td scope="row" colspan="4"> No Deliverys Available</td>
     </tr>
     <tr th:each="delivery : ${unpaiedDeliverys}">
-        <td><span th:text="${delivery.id}"> Title </span></td>
+        <td><span th:text="${delivery.id}"> Delivery Id </span></td>
         <td><span th:text="${delivery.receiver.firstName}"> Receiver firstname </span></td>
         <td><span th:text="${delivery.receiver.lastName}"> Receiver lastname </span></td>
         <td>
-            <form th:action="@{/cancelDelivery}" method="post" th:object="${delivery}">
-                <input type="hidden" th:field="${delivery.id}"/>
-                <button type="submit" value="Submit" class="btn btn-danger">Cancel</button>
-            </form>
+            <a th:href="@{/cancelDelivery(deliveryId=${delivery.id})}" class="btn btn-danger">Cancel</a>
         </td>
-        <td><a href="/payDelivery" th:href="@{/payDelivery/}" class="float-right btn btn-outline-primary">Pay</a></td>
+        <td><a href="/payDelivery" th:href="@{/payDelivery(deliveryId=${delivery.id})}" class="float-right btn btn-outline-primary">Pay</a></td>
     </tr>
     </tbody>
 </table>

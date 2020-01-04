@@ -17,9 +17,9 @@ public class Account extends SingelIdEntity<Long> implements UserDetails {
     private String password;
     @OneToOne
     private Customer owner;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private List<Delivery> deliveryList;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     private List<Address> addressList;
     @OneToOne
     private Address homeAddress;
@@ -144,6 +144,11 @@ public class Account extends SingelIdEntity<Long> implements UserDetails {
         if (!addressList.contains(address)) {
             addressList.add(address);
         }
+    }
+    public void removeDelivery(Delivery delivery)
+    {
+        if(deliveryList.contains(delivery))
+            deliveryList.remove(delivery);
     }
 
     public void removeAddress(Address address) {

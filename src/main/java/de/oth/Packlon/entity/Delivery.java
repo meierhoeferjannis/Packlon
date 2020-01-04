@@ -2,6 +2,7 @@ package de.oth.Packlon.entity;
 
 import javax.persistence.*;
 import javax.sound.sampled.Line;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -27,9 +28,8 @@ public class Delivery extends SingelIdEntity<Long> {
     private boolean cashOnDelivery;
     @Temporal(TemporalType.DATE)
     private Date paymentDate;
+    @NotNull
     private boolean isPaied;
-
-
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Status> statusList;
     private String paymentReference;
@@ -39,6 +39,8 @@ public class Delivery extends SingelIdEntity<Long> {
     public Delivery() {
         lineItemList = new ArrayList<LineItem>();
         statusList = new ArrayList<Status>();
+        isPaied = false;
+
     }
 
     public boolean getPaied() {

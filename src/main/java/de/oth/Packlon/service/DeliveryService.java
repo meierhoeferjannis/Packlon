@@ -51,6 +51,12 @@ public class DeliveryService {
         return deliveryRepository.save(delivery);
 
     }
+    public void deleteDelivery(long deliveryId){
+         deliveryRepository.deleteById(deliveryId);
+    }
+    public Delivery getDeliveryById(long deliveryId){
+        return deliveryRepository.findById(deliveryId).get();
+    }
 
     public Delivery updateDelivery(Delivery delivery) {
         return deliveryRepository.save(delivery);
