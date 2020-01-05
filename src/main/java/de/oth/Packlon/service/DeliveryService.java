@@ -46,7 +46,7 @@ public class DeliveryService {
         }
         Status status = new Status();
         status.setText("Delivery Created");
-        status.setStatusCreated(new Date());
+
         delivery.addStatus(status);
         return deliveryRepository.save(delivery);
 

@@ -11,36 +11,208 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-    <title>Title</title>
+    <title>Packlon Account Page</title>
 </head>
 <body>
 <div th:replace="fragments/navigation"></div>
+<div class="container">
+    <form class="form-horizontal" role="form" th:method="POST" th:object="${account}" th:action="@{/updateAccount}">
+        <div class="row">
+            <div class="col-12 center-block text-center">
+                <h2>Your Account Details</h2>
+                <hr>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-md-3 field-label-responsive">
+            <label for="country">Country</label>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"></div>
+                    <input type="text" th:field="*{homeAddress.country}" name="country" class="form-control"
+                           id="country"
+                           placeholder="germany" required autofocus>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 field-label-responsive">
+            <label for="city">City</label>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"></div>
+                    <input type="text" th:field="*{homeAddress.city}" name="city" class="form-control"
+                           id="city"
+                           placeholder="regensburg" required autofocus>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 field-label-responsive">
+            <label for="street">Street</label>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"></div>
+                    <input type="text" th:field="*{homeAddress.street}" name="street" class="form-control"
+                           id="street"
+                           placeholder="Karoline Ammer Straße 31" required autofocus>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 field-label-responsive">
+            <label for="postCode">PostCode</label>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"></div>
+                    <input type="number" th:field="*{homeAddress.postCode}" min="0" value="0" name="PostCode" class="form-control"
+                           id="PostCode"
+                           placeholder="93049" required autofocus>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 field-label-responsive">
+            <label for="addition">Addition</label>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"></div>
+                    <input type="text" th:field="*{homeAddress.addition}" name="addition" class="form-control"
+                           id="addition"
+                           placeholder="a"  autofocus>
+                </div>
+            </div>
+
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="phone">Your Mobile Number</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{phone}" name="phone" class="form-control"
+                               id="phone"
+                               placeholder="0123 456789"  autofocus>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row mx-md-n5">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 text-center">
+
+                <button type="submit" class="btn btn-success "> Update Account Details
+                </button>
+            </div>
+        </div>
+        <div class="row mx-md-n5">
+            <!--/*@thymesVar id="response" type="string"*/-->
+            <div scope="row" colspan="4" th:text="${response}" class="text-center"> </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12 center-block text-center">
+                <h2>Your Unpaid deliverys</h2>
+                <hr>
+            </div>
+        </div>
+    </form>
+</div>
 <table class="table table-striped">
     <thead>
     <tr>
         <th scope="col"> Delivery Id</th>
-
         <th scope="col"> Receiver firstname</th>
         <th scope="col"> Receiver lastname</th>
+        <th scope="col"> Receiver Country</th>
+        <th scope="col"> Receiver City</th>
+        <th scope="col"> Receiver Postcode</th>
+        <th scope="col"> Receiver Street</th>
+        <th scope="col"> Receiver addition</th>
         <th scope="col"> Cancel Delivery</th>
         <th scope="col"> Pay Delivery </th>
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${unpaiedDeliverys.empty}">
+    <tr th:if="${unpaiedDeliverys.isEmpty()}">
         <td scope="row" colspan="4"> No Deliverys Available</td>
     </tr>
     <tr th:each="delivery : ${unpaiedDeliverys}">
         <td><span th:text="${delivery.id}"> Delivery Id </span></td>
         <td><span th:text="${delivery.receiver.firstName}"> Receiver firstname </span></td>
         <td><span th:text="${delivery.receiver.lastName}"> Receiver lastname </span></td>
+        <td><span th:text="${delivery.receiverAddress.country}"> Receiver Country </span></td>
+        <td><span th:text="${delivery.receiverAddress.city}"> Receiver City </span></td>
+        <td><span th:text="${delivery.receiverAddress.postCode}"> Receiver Postcode </span></td>
+        <td><span th:text="${delivery.receiverAddress.street}"> Receiver Street </span></td>
+        <td><span th:text="${delivery.receiverAddress.addition}"> Receiver Addition </span></td>
         <td>
             <a th:href="@{/cancelDelivery(deliveryId=${delivery.id})}" class="btn btn-danger">Cancel</a>
         </td>
-        <td><a href="/payDelivery" th:href="@{/payDelivery(deliveryId=${delivery.id})}" class="float-right btn btn-outline-primary">Pay</a></td>
+        <td><a  th:href="@{/payDelivery(deliveryId=${delivery.id})}" class="btn btn-primary">Pay</a></td>
     </tr>
     </tbody>
 </table>
-
+<div class="row">
+    <div class="col-12 center-block text-center">
+        <h2>Your paid deliverys</h2>
+        <hr>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col"> Delivery Id</th>
+        <th scope="col"> Receiver firstname</th>
+        <th scope="col"> Receiver lastname</th>
+        <th scope="col"> Receiver Country</th>
+        <th scope="col"> Receiver City</th>
+        <th scope="col"> Receiver Postcode</th>
+        <th scope="col"> Receiver Street</th>
+        <th scope="col"> Receiver addition</th>
+        <th scope="col"> Cancel Delivery</th>
+        <th scope="col"> Pay Delivery </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${paiedDeliverys.isEmpty()}">
+        <td scope="row" colspan="4"> No Deliverys Available</td>
+    </tr>
+    <tr th:each="delivery : ${paiedDeliverys}">
+        <td><span th:text="${delivery.id}"> Delivery Id </span></td>
+        <td><span th:text="${delivery.receiver.firstName}"> Receiver firstname </span></td>
+        <td><span th:text="${delivery.receiver.lastName}"> Receiver lastname </span></td>
+        <td><span th:text="${delivery.receiverAddress.country}"> Receiver Country </span></td>
+        <td><span th:text="${delivery.receiverAddress.city}"> Receiver City </span></td>
+        <td><span th:text="${delivery.receiverAddress.postCode}"> Receiver Postcode </span></td>
+        <td><span th:text="${delivery.receiverAddress.street}"> Receiver Street </span></td>
+        <td><span th:text="${delivery.receiverAddress.addition}"> Receiver Addition </span></td>
+        <td><a th:if="${delivery.delivered}"  th:href="@{/printDeliveryLabel(deliveryId=${delivery.id})}" class="btn btn-primary">Print label</a></td>
+        <td><a th:if="${!delivery.delivered}"  th:href="@{/printDeliveryLabel(deliveryId=${delivery.id})}" class="btn btn-primary">Print label</a></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

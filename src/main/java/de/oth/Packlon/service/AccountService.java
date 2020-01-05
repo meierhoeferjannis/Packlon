@@ -44,19 +44,6 @@ public class AccountService implements UserDetailsService {
         return accountRepository.save(ret);
 
     }
-
-    public Account addDeliverys(long accountId, List<Delivery> deliveryList) {
-        Optional<Account> account = accountRepository.findById(accountId);
-        account.ifPresent(acc -> {
-            for (Delivery delivery : deliveryList) {
-                acc.addDelivery(delivery);
-            }
-            ;
-            accountRepository.save(acc);
-        });
-
-        return account.get();
-    }
     public Account addDelivery(long accountId, Delivery delivery){
       Account  account = accountRepository.findById(accountId).get();
       account.addDelivery(delivery);
@@ -85,6 +72,9 @@ public class AccountService implements UserDetailsService {
 
     public void deleteAccount(long accountId) {
         accountRepository.deleteById(accountId);
+    }
+    public Account updateAccount(Account account){
+        return accountRepository.save(account);
     }
 
 }

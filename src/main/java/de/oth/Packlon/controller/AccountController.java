@@ -28,14 +28,16 @@ public class AccountController {
 
     @RequestMapping(value = {"/account"}, method = RequestMethod.GET)
     public String account(Model model) {
-        List<Delivery> unpaiedDeliverys = new ArrayList<Delivery>();
+
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             Account account = accountService.getAccountByEmail(auth.getName());
-            unpaiedDeliverys = account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == false).collect(Collectors.toList());
-            model.addAttribute("unpaiedDeliverys", unpaiedDeliverys);
+            model.addAttribute("account",account);
+            model.addAttribute("paiedDeliverys",account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == true).collect(Collectors.toList()));
+            model.addAttribute("unpaiedDeliverys",  account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == false).collect(Collectors.toList()));
         } catch (Exception e) {
             model.addAttribute("unpaiedDeliverys", new ArrayList<Delivery>());
+            model.addAttribute("paiedDeliverys", new ArrayList<Delivery>());
         }
 
 
@@ -56,5 +58,16 @@ public class AccountController {
     public String payDelivery(@RequestParam(name="deliveryId")long deliveryId) {
         Delivery deliveryToPay = deliveryService.getDeliveryById(deliveryId);
         return "account";
+    }
+    @RequestMapping(value="/updateAccount",method =  RequestMethod.POST)
+    public String updateAccount(Account account, Model model){
+        try{
+            model.addAttribute("account",accountService.updateAccount(account));
+        }
+        catch(Exception e)
+        {
+            model.addAttribute("response","An Error ocurred while updating your Account Details");
+            model.addAttribute(account);
+        }
     }
 }
