@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <title>Pay Delivery</title>
+</head>
+<body>
+<div th:replace="fragments/navigation"></div>
+<form class="form-horizontal" role="form" th:object="transaction" th:method="POST" th:action="@{/payDelivery}">
+    <div class="row">
+
+        <div class="col-12 center-block text-center">
+            <h2>Pay your Delivery with PayPaul</h2>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 field-label-responsive text-center">
+            <label for="paymentReference">Delivery Id</label>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-pack"></i></div>
+                    <input type="text" class="form-control" id="paymentReference"
+                           name="paymentReference"
+                           placeholder="123" required autofocus>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div    class="row">
+        <div class="col-md-3">
+
+            <button type="submit" class="btn btn-primary btn-lg ">Pay</button>
+        </div>
+    </div>
+
+
+
+</form>
+
+</body>
+</html>
