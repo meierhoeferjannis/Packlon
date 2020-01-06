@@ -25,5 +25,8 @@ public class StorageLocationService {
          storageLocationRepository.findAll().forEach(result::add);
          return  result;
     }
+    public StorageLocation getStorageLocationById(long storageLocationId){
+        return storageLocationRepository.findById(storageLocationId).get();
+    }
 
 }
