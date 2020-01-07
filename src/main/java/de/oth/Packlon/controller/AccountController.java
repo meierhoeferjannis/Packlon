@@ -28,16 +28,18 @@ public class AccountController {
     private DeliveryService deliveryService;
     @Autowired
     private AddressService addressService;
+
     @RequestMapping(value = {"/account"}, method = RequestMethod.GET)
     public String account(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Account account = accountService.getAccountByEmail(auth.getName());
+        model.addAttribute("account", account);
         try {
-            model.addAttribute("account", account);
+
             model.addAttribute("paiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == true).collect(Collectors.toList()));
             model.addAttribute("unpaiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == false).collect(Collectors.toList()));
         } catch (Exception e) {
-            model.addAttribute("account", account);
+
             model.addAttribute("unpaiedDeliverys", new ArrayList<Delivery>());
             model.addAttribute("paiedDeliverys", new ArrayList<Delivery>());
         }
@@ -50,18 +52,18 @@ public class AccountController {
     public String cancelDelivery(@RequestParam(name = "deliveryId") long deliveryId, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Account account = accountService.getAccountByEmail(auth.getName());
-
-        try{
+        model.addAttribute("account", account);
+        try {
             Delivery deliveryToDelete = deliveryService.getDeliveryById(deliveryId);
             account.removeDelivery(deliveryToDelete);
             deliveryService.deleteDelivery(deliveryId);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             model.addAttribute("response", "An Error ocurred while deleting your Delivery");
+        } finally {
+            model.addAttribute("paiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == true).collect(Collectors.toList()));
+            model.addAttribute("unpaiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == false).collect(Collectors.toList()));
+            return "account";
         }
-
-        model.addAttribute("paiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == true).collect(Collectors.toList()));
-        model.addAttribute("unpaiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == false).collect(Collectors.toList()));        return "account";
     }
 
     @RequestMapping(value = "/payDelivery", method = RequestMethod.GET)
@@ -78,19 +80,18 @@ public class AccountController {
         model.addAttribute("unpaiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == false).collect(Collectors.toList()));
         try {
 
-            if(addressService.existsAddress(updatedAccount.getHomeAddress())){
+            if (addressService.existsAddress(updatedAccount.getHomeAddress())) {
                 account.setHomeAddress(addressService.getAddress(updatedAccount.getHomeAddress()));
-            }
-            else{
+            } else {
                 account.setHomeAddress(addressService.createAddress(updatedAccount.getHomeAddress()));
             }
-           account.setPhone(updatedAccount.getPhone());
+            account.setPhone(updatedAccount.getPhone());
             model.addAttribute("account", accountService.updateAccount(account));
-
+            model.addAttribute("response", "You Successfully updated your Account Details");
             return "account";
         } catch (Exception e) {
-            model.addAttribute("response", "An Error ocurred while updating your Account Details");
-            model.addAttribute(account);
+            model.addAttribute("response", "An Error occurred while updating your Account Details");
+            model.addAttribute("account", account);
             return "account";
         }
     }

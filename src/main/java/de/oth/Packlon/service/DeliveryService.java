@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 @Service
 public class DeliveryService {
     @Autowired
@@ -51,10 +52,12 @@ public class DeliveryService {
         return deliveryRepository.save(delivery);
 
     }
-    public void deleteDelivery(long deliveryId){
-         deliveryRepository.deleteById(deliveryId);
+
+    public void deleteDelivery(long deliveryId) {
+        deliveryRepository.deleteById(deliveryId);
     }
-    public Delivery getDeliveryById(long deliveryId){
+
+    public Delivery getDeliveryById(long deliveryId) {
         return deliveryRepository.findById(deliveryId).get();
     }
 
@@ -62,7 +65,15 @@ public class DeliveryService {
         return deliveryRepository.save(delivery);
     }
 //public Delivery requestDelivery(Delivery delivery){}
-//public boolean payDelivery(Delivery delivery){
+
+    public Delivery payDelivery(Delivery delivery) {
+        int amount = 0;
+        for (LineItem l : delivery.getLineItemList()) {
+            amount += l.getPrice();
+        }
+        delivery.setPaied(true);
+        return deliveryRepository.save(delivery);
+    }
 
 
 }

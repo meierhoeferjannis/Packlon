@@ -126,11 +126,15 @@
                 </button>
             </div>
         </div>
-        <div class="row mx-md-n5">
+        <div class="row ">
             <!--/*@thymesVar id="response" type="string"*/-->
-            <div scope="row" colspan="4" th:text="${response}" class="text-center"> </div>
-        </div>
+            <div class="col-12 center-block text-center" scope="row" colspan="4"  >
 
+                <div th:if="${response != null}" class="alert alert-danger" role="alert" th:text="${response}">
+
+                </div>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-12 center-block text-center">

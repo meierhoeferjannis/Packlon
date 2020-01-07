@@ -45,7 +45,7 @@ public class DeliveryController {
                             @ModelAttribute("packageS") int amountPackageS,
                             @ModelAttribute("packageM") int amountPackageM,
                             @ModelAttribute("packageL") int amountPackageL,
-                            Model model) {
+                                 RedirectAttributes redirectAttributes) {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             Account account = accountService.getAccountByEmail(auth.getName());
@@ -76,11 +76,11 @@ public class DeliveryController {
             }
             deliveryService.createDelivery(delivery);
             accountService.addDelivery(account.getId(),delivery);
-            model.addAttribute("message",
+            redirectAttributes.addFlashAttribute("success",
                     "You succesfully created a Delivery and can now find your Delivery in your Account and pay it");
             return "redirect:/delivery";
         } catch (Exception e){
-            model.addAttribute("message",
+            redirectAttributes.addFlashAttribute("error",
                     "An Error Occured while creating your Delivery Error: " + e.getMessage());
             return "redirect:/delivery";
         }

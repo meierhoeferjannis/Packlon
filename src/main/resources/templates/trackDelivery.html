@@ -26,6 +26,15 @@
             <hr>
         </div>
     </div>
+    <div class="row ">
+        <!--/*@thymesVar id="response" type="string"*/-->
+        <div class="col-12 center-block text-center" scope="row" colspan="4"  >
+
+            <div th:if="${response != null}" class="alert alert-danger" role="alert" th:text="${response}">
+
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-3 field-label-responsive text-center">
             <label for="deliveryId">Delivery Id</label>
@@ -60,15 +69,12 @@
         <td scope="row" colspan="4"  class="text-center"> No Status Available</td>
     </tr>
     <tr th:each="status : ${deliveryStatus}">
-        <td><span th:text="${status.id}"> Status Created  </span></td>
+        <td><span th:text="${status.statusCreated}"> Status Created  </span></td>
         <td><span th:text="${status.text}"> Text </span></td>
     </tr>
     </tbody>
 </table>
-<div class="row mx-md-n5">
-    <!--/*@thymesVar id="response" type="string"*/-->
-    <div scope="row" colspan="4" th:text="${response}" class="text-center"> </div>
-</div>
+
 
 
 <table class="table table-striped">
@@ -80,7 +86,7 @@
         <th scope="col">  City</th>
         <th scope="col">  Postcode</th>
         <th scope="col">  Street</th>
-        <th scope="col">  addition</th>
+        <th scope="col">  Addition</th>
         <th scope="col"> Send  to this Location </th>
     </tr>
     </thead>
