@@ -95,14 +95,14 @@
         <td scope="row" colspan="4"> No Storage Locations Available</td>
     </tr>
     <tr th:each="location : ${storageLocations}">
-        <td><span th:text="${location.storageLocationType}"> Storage Location Type </span></td>
+        <td><span th:text="${location.storageLocationType.getName()}"> Storage Location Type </span></td>
         <td><span th:text="${location.name}"> Storage Location name</span></td>
         <td><span th:text="${location.address.country}">  Country </span></td>
         <td><span th:text="${location.address.city}">  City </span></td>
         <td><span th:text="${location.address.postCode}">  Postcode </span></td>
         <td><span th:text="${location.address.street}">  Street </span></td>
         <td><span th:text="${location.address.addition}">  Addition </span></td>
-        <td><a   th:href="@{/changeStorageLocation(storageLocationId=${location.id})}" class="btn btn-primary">Send  to this Location</a></td>
+        <td><a   th:href="@{/changeStorageLocation(storageLocationId=${location.id},deliveryId = ${deliveryId})}" class="btn btn-primary">Send  to this Location</a></td>
     </tr>
     </tbody>
 </table>

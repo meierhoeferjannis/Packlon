@@ -207,6 +207,7 @@
     <tr th:each="delivery : ${paiedDeliverys}">
         <td><span th:text="${delivery.id}"> Delivery Id </span></td>
         <td><span th:text="${delivery.receiver.firstName}"> Receiver firstname </span></td>
+
         <td><span th:text="${delivery.receiver.lastName}"> Receiver lastname </span></td>
         <td><span th:text="${delivery.receiverAddress.country}"> Receiver Country </span></td>
         <td><span th:text="${delivery.receiverAddress.city}"> Receiver City </span></td>
@@ -218,5 +219,11 @@
     </tr>
     </tbody>
 </table>
+<div th:if="${bookPage.totalPages > 0}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/listBooks(size=${bookPage.size}, page=${pageNumber})}"
+       th:text=${pageNumber}
+       th:class="${pageNumber==bookPage.number + 1} ? active"></a>
+</div>
 </body>
 </html>

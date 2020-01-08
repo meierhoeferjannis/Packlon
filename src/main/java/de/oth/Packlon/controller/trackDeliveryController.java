@@ -23,7 +23,7 @@ public class trackDeliveryController {
     private StorageLocationService storageLocationService;
 
     @RequestMapping(value = {"/trackDelivery"}, method = RequestMethod.GET)
-    public String getTrackDeliveryView( Model model) {
+    public String getTrackDeliveryView(Model model) {
         model.addAttribute("deliveryStatus", new ArrayList<Status>());
         model.addAttribute("storageLocations", new ArrayList<StorageLocation>());
         return "trackDelivery";
@@ -44,15 +44,16 @@ public class trackDeliveryController {
         return "trackDelivery";
     }
 
-    @RequestMapping(value = {"/changeStorageLocation"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/changeStorageLocation"}, method = RequestMethod.GET)
     public String changeStorageLocation(@RequestParam(name = "storageLocationId") long storageLocationId,
-                                        Model model,
-                                        @ModelAttribute("deliveryId") long deliveryId) {
+                                        Model model, @RequestParam(name = "deliveryId")
+                                                long deliveryId) {
         Delivery delivery = deliveryService.getDeliveryById(deliveryId);
         StorageLocation storageLocation = storageLocationService.getStorageLocationById(storageLocationId);
         delivery.setStorageLocation(storageLocation);
         Status status = new Status();
-        status.setText("You change the Destination to Storage Location " + storageLocation.getName() +
+        status.setText("You change the Destination to Storage Location " + storageLocation.getName() + " "
+                + storageLocation.getStorageLocationType().getName() +
                 " Address"
                 + storageLocation.getAddress().getCountry() + " "
                 + storageLocation.getAddress().getCity() + " "
@@ -61,7 +62,10 @@ public class trackDeliveryController {
                 + storageLocation.getAddress().getAddition());
         delivery.addStatus(status);
         deliveryService.updateDelivery(delivery);
-        model.addAttribute("response", "Your delivery with ");
+        model.addAttribute("response", "Your delivery with " + deliveryId + " was redirected to the Storage Location" + storageLocation.getName());
+        model.addAttribute("deliveryStatus", deliveryService.getDeliveryById(deliveryId).getStatusList());
+        model.addAttribute("storageLocations", storageLocationService.getAllStorageLocations());
+
         return "trackDelivery";
     }
 

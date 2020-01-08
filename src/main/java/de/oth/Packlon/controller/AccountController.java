@@ -6,6 +6,7 @@ import de.oth.Packlon.service.AccountService;
 import de.oth.Packlon.service.AddressService;
 import de.oth.Packlon.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class AccountController {
@@ -28,9 +31,33 @@ public class AccountController {
     private DeliveryService deliveryService;
     @Autowired
     private AddressService addressService;
+    @RequestMapping(value = "/listBooks", method = RequestMethod.GET)
+    public String listBooks(
+            Model model,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Page<Book> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+
+        model.addAttribute("bookPage", bookPage);
+
+        int totalPages = bookPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return "listBooks.html";
+    }
 
     @RequestMapping(value = {"/account"}, method = RequestMethod.GET)
-    public String account(Model model) {
+    public String account(Model model,
+                          @RequestParam("page") Optional<Integer> page,
+                          @RequestParam("size") Optional<Integer> size) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Account account = accountService.getAccountByEmail(auth.getName());
         model.addAttribute("account", account);

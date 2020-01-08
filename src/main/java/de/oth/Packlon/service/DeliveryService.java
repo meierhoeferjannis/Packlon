@@ -24,6 +24,26 @@ public class DeliveryService {
     @Autowired
     private AddressService addressService;
 
+    final private List<Delivery> deliveries = BookUtils.buildBooks();
+
+    public Page<Book> findPaginated(Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Book> list;
+
+        if (books.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, books.size());
+            list = books.subList(startItem, toIndex);
+        }
+
+        Page<Book> bookPage
+                = new PageImpl<Book>(list, PageRequest.of(currentPage, pageSize), books.size());
+
+        return bookPage;
+    }
 
     public Delivery createDelivery(Delivery delivery) {
         delivery.setReceiver(customerService.getCustomerByName(delivery.getReceiver()));
