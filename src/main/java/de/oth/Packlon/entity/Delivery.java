@@ -15,6 +15,7 @@ public class Delivery extends SingelIdEntity<Long> {
     private Date submitted;
     @Temporal(TemporalType.DATE)
     private Date delivered;
+
     @ManyToOne
     private Customer receiver;
     @ManyToOne
@@ -29,7 +30,7 @@ public class Delivery extends SingelIdEntity<Long> {
     @Temporal(TemporalType.DATE)
     private Date paymentDate;
     @NotNull
-    private boolean isPaied;
+    private boolean paid;
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Status> statusList;
     private String paymentReference;
@@ -39,16 +40,16 @@ public class Delivery extends SingelIdEntity<Long> {
     public Delivery() {
         lineItemList = new ArrayList<LineItem>();
         statusList = new ArrayList<Status>();
-        isPaied = false;
+        paid = false;
 
     }
 
-    public boolean getPaied() {
-        return isPaied;
+    public boolean isPaid() {
+        return paid;
     }
 
-    public void setPaied(boolean paied) {
-        isPaied = paied;
+    public void setPaid(boolean paid) {
+        paid = paid;
     }
 
     public Address getSenderAddress() {

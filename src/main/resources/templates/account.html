@@ -3,8 +3,11 @@
 <head>
     <!-- Standard Meta -->
     <meta charset="utf-8"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
 
@@ -23,85 +26,86 @@
                 <hr>
             </div>
         </div>
-    <div class="row">
-        <div class="col-md-3 field-label-responsive">
-            <label for="country">Country</label>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon" style="width: 2.6rem"></div>
-                    <input type="text" th:field="*{homeAddress.country}" name="country" class="form-control"
-                           id="country"
-                           placeholder="germany" required autofocus>
-                </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="country">Country</label>
             </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.country}" name="country" class="form-control"
+                               id="country"
+                               placeholder="germany" required autofocus>
+                    </div>
+                </div>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 field-label-responsive">
-            <label for="city">City</label>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon" style="width: 2.6rem"></div>
-                    <input type="text" th:field="*{homeAddress.city}" name="city" class="form-control"
-                           id="city"
-                           placeholder="regensburg" required autofocus>
-                </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="city">City</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.city}" name="city" class="form-control"
+                               id="city"
+                               placeholder="regensburg" required autofocus>
+                    </div>
+                </div>
 
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 field-label-responsive">
-            <label for="street">Street</label>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon" style="width: 2.6rem"></div>
-                    <input type="text" th:field="*{homeAddress.street}" name="street" class="form-control"
-                           id="street"
-                           placeholder="Karoline Ammer Straße 31" required autofocus>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="street">Street</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.street}" name="street" class="form-control"
+                               id="street"
+                               placeholder="Karoline Ammer Straße 31" required autofocus>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 field-label-responsive">
-            <label for="postCode">PostCode</label>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon" style="width: 2.6rem"></div>
-                    <input type="number" th:field="*{homeAddress.postCode}" min="0" value="0" name="PostCode" class="form-control"
-                           id="PostCode"
-                           placeholder="93049" required autofocus>
-                </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="postCode">PostCode</label>
             </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="number" th:field="*{homeAddress.postCode}" min="0" value="0" name="PostCode"
+                               class="form-control"
+                               id="PostCode"
+                               placeholder="93049" required autofocus>
+                    </div>
+                </div>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 field-label-responsive">
-            <label for="addition">Addition</label>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon" style="width: 2.6rem"></div>
-                    <input type="text" th:field="*{homeAddress.addition}" name="addition" class="form-control"
-                           id="addition"
-                           placeholder="a"  autofocus>
-                </div>
             </div>
-
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="addition">Addition</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.addition}" name="addition" class="form-control"
+                               id="addition"
+                               placeholder="a" autofocus>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-3 field-label-responsive">
                 <label for="phone">Your Mobile Number</label>
@@ -112,7 +116,7 @@
                         <div class="input-group-addon" style="width: 2.6rem"></div>
                         <input type="text" th:field="*{phone}" name="phone" class="form-control"
                                id="phone"
-                               placeholder="0123 456789"  autofocus>
+                               placeholder="0123 456789" autofocus>
                     </div>
                 </div>
 
@@ -128,7 +132,7 @@
         </div>
         <div class="row ">
             <!--/*@thymesVar id="response" type="string"*/-->
-            <div class="col-12 center-block text-center" scope="row" colspan="4"  >
+            <div class="col-12 center-block text-center" scope="row" colspan="4">
 
                 <div th:if="${response != null}" class="alert alert-danger" role="alert" th:text="${response}">
 
@@ -156,14 +160,14 @@
         <th scope="col"> Receiver Street</th>
         <th scope="col"> Receiver addition</th>
         <th scope="col"> Cancel Delivery</th>
-        <th scope="col"> Pay Delivery </th>
+        <th scope="col"> Pay Delivery</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${unpaiedDeliverys.isEmpty()}">
+    <tr th:if="${unpaidDeliverys.isEmpty()}">
         <td scope="row" colspan="4"> No Deliverys Available</td>
     </tr>
-    <tr th:each="delivery : ${unpaiedDeliverys}">
+    <tr th:each="delivery : ${unpaidDeliverys}">
         <td><span th:text="${delivery.id}"> Delivery Id </span></td>
         <td><span th:text="${delivery.receiver.firstName}"> Receiver firstname </span></td>
         <td><span th:text="${delivery.receiver.lastName}"> Receiver lastname </span></td>
@@ -175,10 +179,34 @@
         <td>
             <a th:href="@{/cancelDelivery(deliveryId=${delivery.id})}" class="btn btn-danger">Cancel</a>
         </td>
-        <td><a  th:href="@{/payDelivery(deliveryId=${delivery.id})}" class="btn btn-primary">Pay</a></td>
+        <td><a th:href="@{/payDelivery(deliveryId=${delivery.id})}" class="btn btn-primary">Pay</a></td>
     </tr>
     </tbody>
 </table>
+<div class="row">
+    <div class="col-12 center-block center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+        <nav th:if="${unpaidDeliverys.totalPages > 0}" aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" th:each="pageNumber : ${pageNumbersUnpaid}">
+                    <a class="page-link" th:href="@{/account(pageUnpaid=${pageNumber})}"
+                       th:text=${pageNumber}
+                       th:class="${pageNumber==unpaidDeliverys.number + 1} ? active"></a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-12 center-block text-center">
         <h2>Your paid deliverys</h2>
@@ -197,14 +225,14 @@
         <th scope="col"> Receiver Street</th>
         <th scope="col"> Receiver addition</th>
         <th scope="col"> Cancel Delivery</th>
-        <th scope="col"> Pay Delivery </th>
+        <th scope="col"> Pay Delivery</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${paiedDeliverys.isEmpty()}">
+    <tr th:if="${paidDeliverys.isEmpty()}">
         <td scope="row" colspan="4"> No Deliverys Available</td>
     </tr>
-    <tr th:each="delivery : ${paiedDeliverys}">
+    <tr th:each="delivery : ${paidDeliverys}">
         <td><span th:text="${delivery.id}"> Delivery Id </span></td>
         <td><span th:text="${delivery.receiver.firstName}"> Receiver firstname </span></td>
 
@@ -214,16 +242,21 @@
         <td><span th:text="${delivery.receiverAddress.postCode}"> Receiver Postcode </span></td>
         <td><span th:text="${delivery.receiverAddress.street}"> Receiver Street </span></td>
         <td><span th:text="${delivery.receiverAddress.addition}"> Receiver Addition </span></td>
-        <td><a th:if="${delivery.delivered}"  th:href="@{/printDeliveryLabel(deliveryId=${delivery.id})}" class="btn btn-primary">Print label</a></td>
-        <td><a th:if="${!delivery.delivered}"  th:href="@{/printDeliveryLabel(deliveryId=${delivery.id})}" class="btn btn-primary">Print label</a></td>
+        <td><a th:if="${delivery.delivered}" th:href="@{/printDeliveryLabel(deliveryId=${delivery.id})}"
+               class="btn btn-primary">Print label</a></td>
+        <td><a th:if="${!delivery.delivered}" th:href="@{/printDeliveryLabel(deliveryId=${delivery.id})}"
+               class="btn btn-primary">Print label</a></td>
     </tr>
     </tbody>
 </table>
-<div th:if="${bookPage.totalPages > 0}" class="pagination"
-     th:each="pageNumber : ${pageNumbers}">
-    <a th:href="@{/listBooks(size=${bookPage.size}, page=${pageNumber})}"
-       th:text=${pageNumber}
-       th:class="${pageNumber==bookPage.number + 1} ? active"></a>
+<div class="row">
+    <div th:if="${paidDeliverys.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbersPaid}">
+        <a th:href="@{/account(pagePaid=${pageNumber})}"
+           th:text=${pageNumber}
+           th:class="${pageNumber==paidDeliverys.number + 1} ? active"></a>
+    </div>
 </div>
+
 </body>
 </html>

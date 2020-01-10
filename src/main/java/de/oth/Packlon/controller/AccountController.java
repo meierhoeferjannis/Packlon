@@ -6,6 +6,7 @@ import de.oth.Packlon.service.AccountService;
 import de.oth.Packlon.service.AddressService;
 import de.oth.Packlon.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,67 +32,52 @@ public class AccountController {
     private DeliveryService deliveryService;
     @Autowired
     private AddressService addressService;
-    @RequestMapping(value = "/listBooks", method = RequestMethod.GET)
-    public String listBooks(
-            Model model,
-            @RequestParam("page") Optional<Integer> page,
-            @RequestParam("size") Optional<Integer> size) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
 
-        Page<Book> bookPage = bookService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
-
-        model.addAttribute("bookPage", bookPage);
-
-        int totalPages = bookPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
-
-        return "listBooks.html";
-    }
-
-    @RequestMapping(value = {"/account"}, method = RequestMethod.GET)
-    public String account(Model model,
-                          @RequestParam("page") Optional<Integer> page,
-                          @RequestParam("size") Optional<Integer> size) {
+    @RequestMapping(value = {"/accountDetails"},method =  RequestMethod.GET)
+    public String accountDetails(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Account account = accountService.getAccountByEmail(auth.getName());
-        model.addAttribute("account", account);
-        try {
+        model.addAttribute("account",account);
+        return "accountDetails";
+    }
 
-            model.addAttribute("paiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == true).collect(Collectors.toList()));
-            model.addAttribute("unpaiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == false).collect(Collectors.toList()));
-        } catch (Exception e) {
+    @RequestMapping(value = {"/accountPaidDeliverys"}, method = RequestMethod.GET)
+    public String accountPaidDeliverys(Model model,
+                                       @RequestParam("pagePaid") Optional<Integer> pagePaid
+    ) {
+        addPaidDeliverys(model, pagePaid);
+        return "accountPaidDeliverys";
+    }
 
-            model.addAttribute("unpaiedDeliverys", new ArrayList<Delivery>());
-            model.addAttribute("paiedDeliverys", new ArrayList<Delivery>());
-        }
-
-
-        return "account";
+    @RequestMapping(value = {"/accountUnpaidDeliverys"}, method = RequestMethod.GET)
+    public String accountUnpaidDeliverys(Model model,
+                                         @RequestParam("pageUnpaid") Optional<Integer> pageUnpaid
+    ) {
+                addUnpaidDeliverys(model, pageUnpaid);
+        return "accountUnpaidDeliverys";
     }
 
     @RequestMapping(value = "/cancelDelivery", method = RequestMethod.GET)
-    public String cancelDelivery(@RequestParam(name = "deliveryId") long deliveryId, Model model) {
+    public String cancelDelivery(@RequestParam(name = "deliveryId") long deliveryId,
+                                 Model model,
+                                 @RequestParam("pageUnpaid") Optional<Integer> pageUnpaid
+    ) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Account account = accountService.getAccountByEmail(auth.getName());
-        model.addAttribute("account", account);
         try {
             Delivery deliveryToDelete = deliveryService.getDeliveryById(deliveryId);
             account.removeDelivery(deliveryToDelete);
             deliveryService.deleteDelivery(deliveryId);
+            model.addAttribute("success", "Delivery successfully canceled");
         } catch (Exception e) {
-            model.addAttribute("response", "An Error ocurred while deleting your Delivery");
+            model.addAttribute("error", "An Error ocurred while deleting your Delivery");
         } finally {
-            model.addAttribute("paiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == true).collect(Collectors.toList()));
-            model.addAttribute("unpaiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == false).collect(Collectors.toList()));
-            return "account";
+             addUnpaidDeliverys(model, pageUnpaid);
+            return "accountUnpaidDeliverys";
         }
     }
+
+
 
     @RequestMapping(value = "/payDelivery", method = RequestMethod.GET)
     public String payDelivery(@RequestParam(name = "deliveryId") long deliveryId) {
@@ -103,8 +89,7 @@ public class AccountController {
     public String updateAccount(Account updatedAccount, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Account account = accountService.getAccountByEmail(auth.getName());
-        model.addAttribute("paiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == true).collect(Collectors.toList()));
-        model.addAttribute("unpaiedDeliverys", account.getDeliveryList().stream().filter(delivery -> delivery.getPaied() == false).collect(Collectors.toList()));
+
         try {
 
             if (addressService.existsAddress(updatedAccount.getHomeAddress())) {
@@ -114,12 +99,43 @@ public class AccountController {
             }
             account.setPhone(updatedAccount.getPhone());
             model.addAttribute("account", accountService.updateAccount(account));
-            model.addAttribute("response", "You Successfully updated your Account Details");
-            return "account";
+            model.addAttribute("success", "You Successfully updated your Account Details");
+            return "accountDetails";
         } catch (Exception e) {
-            model.addAttribute("response", "An Error occurred while updating your Account Details");
+            model.addAttribute("error", "An Error occurred while updating your Account Details");
             model.addAttribute("account", account);
-            return "account";
+            return "accountDetails";
+        }
+    }
+
+    private void addUnpaidDeliverys(Model model, @RequestParam("pageUnpaid") Optional<Integer> pageUnpaid) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Account account = accountService.getAccountByEmail(auth.getName());
+        Page<Delivery> unpaidDelivery = deliveryService.getDeliveryPageForSender(false, account.getOwner(), PageRequest.of(pageUnpaid.orElse(1) - 1, 5));
+        model.addAttribute("unpaidDeliverys", unpaidDelivery);
+        model.addAttribute("pageNumber",pageUnpaid);
+        int totalPagesUnpaid = unpaidDelivery.getTotalPages();
+        if (totalPagesUnpaid > 0) {
+            List<Integer> pageNumbersUnpaid = IntStream.rangeClosed(1, totalPagesUnpaid)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbersUnpaid", pageNumbersUnpaid);
+        }
+
+    }
+    private void addPaidDeliverys(Model model, @RequestParam("pagePaid") Optional<Integer> pagePaid) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Account account = accountService.getAccountByEmail(auth.getName());
+        Page<Delivery> paidDelivery = deliveryService.getDeliveryPageForSender(true, account.getOwner(), PageRequest.of(pagePaid.orElse(1) - 1, 5));
+        model.addAttribute("paidDeliverys", paidDelivery);
+        model.addAttribute("pageNumber",pagePaid);
+
+        int totalPagesPaid = paidDelivery.getTotalPages();
+        if (totalPagesPaid > 0) {
+            List<Integer> pageNumbersPaid = IntStream.rangeClosed(1, totalPagesPaid)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbersPaid", pageNumbersPaid);
         }
     }
 }

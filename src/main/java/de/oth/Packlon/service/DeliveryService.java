@@ -1,13 +1,13 @@
 package de.oth.Packlon.service;
 
 
-import de.oth.Packlon.entity.Address;
-import de.oth.Packlon.entity.Delivery;
-import de.oth.Packlon.entity.LineItem;
-import de.oth.Packlon.entity.Status;
+import de.oth.Packlon.entity.*;
 import de.oth.Packlon.repository.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,25 +24,8 @@ public class DeliveryService {
     @Autowired
     private AddressService addressService;
 
-    final private List<Delivery> deliveries = BookUtils.buildBooks();
-
-    public Page<Book> findPaginated(Pageable pageable) {
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<Book> list;
-
-        if (books.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, books.size());
-            list = books.subList(startItem, toIndex);
-        }
-
-        Page<Book> bookPage
-                = new PageImpl<Book>(list, PageRequest.of(currentPage, pageSize), books.size());
-
-        return bookPage;
+    public Page<Delivery> getDeliveryPageForSender(boolean paid, Customer sender, Pageable pageable){
+        return deliveryRepository.findAllByPaidAndSender(paid,sender,pageable);
     }
 
     public Delivery createDelivery(Delivery delivery) {
@@ -91,7 +74,7 @@ public class DeliveryService {
         for (LineItem l : delivery.getLineItemList()) {
             amount += l.getPrice();
         }
-        delivery.setPaied(true);
+        delivery.setPaid(true);
         return deliveryRepository.save(delivery);
     }
 

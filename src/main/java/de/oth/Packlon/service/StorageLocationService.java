@@ -4,6 +4,8 @@ package de.oth.Packlon.service;
 import de.oth.Packlon.entity.StorageLocation;
 import de.oth.Packlon.repository.StorageLocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +20,9 @@ public class StorageLocationService {
 
          storageLocationRepository.findAllByAddress_PostCode(postCode).forEach(result::add);
          return result;
+    }
+    public Page<StorageLocation> getStorageLocationPage(Pageable pageable){
+        return storageLocationRepository.findAll(pageable);
     }
     public List<StorageLocation> getAllStorageLocations() {
         List<StorageLocation> result = new ArrayList<StorageLocation>();

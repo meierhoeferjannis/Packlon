@@ -25,7 +25,7 @@
     </div>
     <div class="row">
         <div class="col-md-3 field-label-responsive text-center">
-            <label for="paymentReference">Delivery Id</label>
+            <label for="paymentReference"> Your Pay Paul Email</label>
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -33,21 +33,36 @@
                     <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-pack"></i></div>
                     <input type="text" class="form-control" id="paymentReference"
                            name="paymentReference"
-                           placeholder="123" required autofocus>
+                           placeholder="john@web.de" required autofocus>
                 </div>
             </div>
         </div>
     </div>
     <div    class="row">
-        <div class="col-md-3">
+        <div class="col text-center">
 
             <button type="submit" class="btn btn-primary btn-lg ">Pay</button>
         </div>
     </div>
-
-
-
 </form>
+<div class="row ">
+    <!--/*@thymesVar id="success" type="string"*/-->
+    <div class="col-12 center-block text-center" scope="row" colspan="4">
+
+        <div th:if="${success != null}" class="alert alert-success" role="alert" th:text="${success}">
+
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <!--/*@thymesVar id="error" type="string"*/-->
+    <div class="col-12 center-block text-center" scope="row" colspan="4">
+
+        <div th:if="${error != null}" class="alert alert-danger" role="alert" th:text="${error}">
+
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

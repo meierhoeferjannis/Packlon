@@ -106,5 +106,20 @@
     </tr>
     </tbody>
 </table>
+
+<div class="row">
+    <div class="col-12 center-block text-center">
+        <nav th:if="${storageLocations.totalPages > 0}" aria-label="Page navigation example">
+            <ul class="pagination justify-content-center" th:each="pageNumber : ${pageNumbersLocations}">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/trackDeliverys(pageLocation=${pageNumber},deliveryId = ${deliveryId}))}"
+                       th:text=${pageNumber}
+                    ></a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</div>
 </body>
 </html>
