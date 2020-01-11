@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <title>Packlon Account Page</title>
+</head>
+<body>
+<div th:replace="fragments/navigation"></div>
+<div class="container">
+    <form class="form-horizontal" role="form" th:method="POST" th:object="${account}" th:action="@{/updateAccount}">
+        <div class="row">
+            <div class="col-12 center-block text-center">
+                <h2>Your Account Details</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="country">Country</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.country}" name="country" class="form-control"
+                               id="country"
+                               placeholder="germany" required autofocus>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="city">City</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.city}" name="city" class="form-control"
+                               id="city"
+                               placeholder="regensburg" required autofocus>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="street">Street</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.street}" name="street" class="form-control"
+                               id="street"
+                               placeholder="Karoline Ammer Straße 31" required autofocus>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="postCode">PostCode</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="number" th:field="*{homeAddress.postCode}" min="0" value="0" name="PostCode"
+                               class="form-control"
+                               id="PostCode"
+                               placeholder="93049" required autofocus>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="addition">Addition</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{homeAddress.addition}" name="addition" class="form-control"
+                               id="addition"
+                               placeholder="a" autofocus>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="phone">Your Mobile Number</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{phone}" name="phone" class="form-control"
+                               id="phone"
+                               placeholder="0123 456789" autofocus>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row mx-md-n5">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 text-center">
+
+                <button type="submit" class="btn btn-success "> Update Account Details
+                </button>
+            </div>
+        </div>
+        <div class="row ">
+            <!--/*@thymesVar id="error" type="string"*/-->
+            <div class="col-12 center-block text-center" scope="row" colspan="4">
+
+                <div th:if="${error != null}" class="alert alert-danger" role="alert" th:text="${error}">
+
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <!--/*@thymesVar id="success" type="string"*/-->
+            <div class="col-12 center-block text-center" scope="row" colspan="4">
+
+                <div th:if="${success != null}" class="alert alert-success" role="alert" th:text="${success}">
+
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+</body>
+</html>
