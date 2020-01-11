@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
-public class trackDeliveryController {
+public class TrackDeliveryController {
     @Autowired
     private DeliveryService deliveryService;
     @Autowired

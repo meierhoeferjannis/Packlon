@@ -67,7 +67,7 @@ public class RegistrationController {
         } else {
             account.setHomeAddress(addressService.getAddress(account.getHomeAddress()));
         }
-        account.addAddress(account.getHomeAddress());
+
         account.setOwner(customer);
         if (valid) {
             Account nAcc = new Account();

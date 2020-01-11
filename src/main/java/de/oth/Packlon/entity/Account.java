@@ -19,12 +19,11 @@ public class Account extends SingelIdEntity<Long> implements UserDetails {
     private Customer owner;
     @ManyToMany
     private List<Delivery> deliveryList;
-    @OneToMany
-    private List<Address> addressList;
+
     @OneToOne
     private Address homeAddress;
     public Account(){
-        addressList = new ArrayList<Address>();
+
         deliveryList = new ArrayList<Delivery>();
     }
 
@@ -89,14 +88,6 @@ public class Account extends SingelIdEntity<Long> implements UserDetails {
         this.password = password;
     }
 
-    public List<Address> getAddressList() {
-        return Collections.unmodifiableList(addressList);
-    }
-
-    public void setAddressList(List<Address> addressList) {
-        this.addressList = addressList;
-    }
-
     public List<Delivery> getDeliveryList() {
         return Collections.unmodifiableList(deliveryList);
     }
@@ -140,19 +131,12 @@ public class Account extends SingelIdEntity<Long> implements UserDetails {
         }
     }
 
-    public void addAddress(Address address) {
-        if (!addressList.contains(address)) {
-            addressList.add(address);
-        }
-    }
+
     public void removeDelivery(Delivery delivery)
     {
         if(deliveryList.contains(delivery))
             deliveryList.remove(delivery);
     }
 
-    public void removeAddress(Address address) {
-        if (addressList.contains(address))
-            addressList.remove(address);
-    }
+
 }

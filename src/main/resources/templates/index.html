@@ -18,5 +18,14 @@
         <p class="lead">Welcome to Packlon the best choice for your delivery</p>
     </div>
 </div>
+<div class="row ">
+    <!--/*@thymesVar id="success" type="string"*/-->
+    <div class="col-12 center-block text-center" scope="row" colspan="4">
+
+        <div th:if="${success != null}" class="alert alert-success" role="alert" th:text="${success}">
+
+        </div>
+    </div>
+</div>
 </body>
 </html>

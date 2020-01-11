@@ -77,14 +77,6 @@ public class AccountController {
         }
     }
 
-
-
-    @RequestMapping(value = "/payDelivery", method = RequestMethod.GET)
-    public String payDelivery(@RequestParam(name = "deliveryId") long deliveryId) {
-        Delivery deliveryToPay = deliveryService.getDeliveryById(deliveryId);
-        return "account";
-    }
-
     @RequestMapping(value = "/updateAccount", method = RequestMethod.POST)
     public String updateAccount(Account updatedAccount, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

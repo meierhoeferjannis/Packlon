@@ -10,6 +10,11 @@ public class LineItem extends SingelIdEntity<Long> {
     @ManyToOne
     private Pack pack;
 
+    public LineItem(int amount, Pack pack) {
+        this.amount = amount;
+        this.pack = pack;
+    }
+
     public int getAmount() {
         return amount;
     }

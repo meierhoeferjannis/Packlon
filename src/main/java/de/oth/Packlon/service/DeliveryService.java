@@ -3,6 +3,7 @@ package de.oth.Packlon.service;
 
 import de.oth.Packlon.entity.*;
 import de.oth.Packlon.repository.DeliveryRepository;
+import de.oth.Packlon.service.model.DeliveryRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,8 @@ import java.util.List;
 @Service
 public class DeliveryService {
     @Autowired
+    private AccountService accountService;
+    @Autowired
     private DeliveryRepository deliveryRepository;
     @Autowired
     private CustomerService customerService;
@@ -23,9 +26,11 @@ public class DeliveryService {
     private LineItemService lineItemService;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private PackService packService;
 
-    public Page<Delivery> getDeliveryPageForSender(boolean paid, Customer sender, Pageable pageable){
-        return deliveryRepository.findAllByPaidAndSender(paid,sender,pageable);
+    public Page<Delivery> getDeliveryPageForSender(boolean paid, Customer sender, Pageable pageable) {
+        return deliveryRepository.findAllByPaidAndSender(paid, sender, pageable);
     }
 
     public Delivery createDelivery(Delivery delivery) {
@@ -67,7 +72,46 @@ public class DeliveryService {
     public Delivery updateDelivery(Delivery delivery) {
         return deliveryRepository.save(delivery);
     }
-//public Delivery requestDelivery(Delivery delivery){}
+
+    public long requestDelivery(Delivery delivery, Account account) throws DeliveryRequestException {
+        try {
+            Delivery newDelivery = new Delivery();
+            if (newDelivery.getSenderAddress() == null) {
+                newDelivery.setSenderAddress(account.getHomeAddress());
+            } else {
+                if (addressService.existsAddress(newDelivery.getSenderAddress())) {
+                    newDelivery.setSenderAddress(addressService.getAddress(newDelivery.getSenderAddress()));
+                } else {
+                    newDelivery.setSenderAddress(addressService.createAddress(newDelivery.getSenderAddress()));
+                }
+            }
+            if (addressService.existsAddress(newDelivery.getReceiverAddress())) {
+                newDelivery.setReceiverAddress(addressService.getAddress(newDelivery.getReceiverAddress()));
+            } else {
+                newDelivery.setReceiverAddress(addressService.createAddress(newDelivery.getReceiverAddress()));
+            }
+            if (newDelivery.getSender() == null) {
+                newDelivery.setSender(account.getOwner());
+            } else {
+                newDelivery.setSender(customerService.getCustomerByName(newDelivery.getSender()));
+            }
+            newDelivery.setReceiver(customerService.getCustomerByName(newDelivery.getReceiver()));
+            for (LineItem item : delivery.getLineItemList()) {
+                if (item.getAmount() != 0) {
+                    LineItem lineItem = new LineItem(item.getAmount(), packService.getPackBySize(item.getPack().getSize()));
+                    lineItem.calculatePrice();
+                    newDelivery.addLineItem(lineItem);
+                }
+            }
+            Status status = new Status();
+            status.setText("Delivery Created per Request");
+            newDelivery.addStatus(status);
+            return deliveryRepository.save(newDelivery).id;
+        } catch (Exception e) {
+            throw new DeliveryRequestException(e.getMessage());
+        }
+
+    }
 
     public Delivery payDelivery(Delivery delivery) {
         int amount = 0;

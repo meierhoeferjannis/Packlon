@@ -3,8 +3,11 @@
 <head>
     <!-- Standard Meta -->
     <meta charset="utf-8"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
 
@@ -15,9 +18,131 @@
 </head>
 <body>
 <div th:replace="fragments/navigation"></div>
-<form class="form-horizontal" role="form" th:object="transaction" th:method="POST" th:action="@{/payDelivery}">
+<!--/*@thymesVar id="deliveryId" type="long"*/-->
+<form class="form-horizontal" role="form" th:method="POST" th:action="@{/pay(deliveryId = ${delivery.id})}">
     <div class="row">
+        <div class="container" th:object="${delivery}">
+            <div class="row">
+                <div class="col-12 center-block text-center">
+                    <h2>Selected Delivery</h2>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class=" col-12 center-block text-center">
+                    <h>Receiver</h>
+                    <hr>
+                </div>
+            </div>
+            <!--  Receiver FirstName and LastName -->
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label>Receiver´s FirstName</label>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                            <div th:text="*{receiver.firstName}">Firstname</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 field-label-responsive">
+                    <label class="float-right">Receiver LastName</label>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                            <div th:text="*{receiver.lastName}">Lastname</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=" col-12 center-block text-center">
+                    <h>Receiver´s Address</h>
+                    <hr>
+                </div>
+            </div>
+            <!--  Receiver Country and City -->
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label>Country Receiver</label>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-globe"></i></div>
+                            <div th:text="*{receiverAddress.country}">Country</div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" float- right col-md-3 field-label-responsive">
+                    <label class="float-right" >City Receiver</label>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-city"></i></div>
+                            <div th:text="*{receiverAddress.city}">City</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  Receiver PostCode and Street -->
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label>Postcode Receiver</label>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                            <div th:text="*{receiverAddress.postCode}">PostCode</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 field-label-responsive">
+                    <label class="float-right" >Street Receiver</label>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-road"></i></div>
+                            <div th:text="*{receiverAddress.street}">Street</div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label>Addition</label>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                            <div th:text="*{receiverAddress.addition}">Addition</div>
+                                                   </div>
+                    </div>
+                </div>
+                <div class="col-md-3 field-label-responsive">
+                    <label class="float-right" >Total Price</label>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-cube"></i></div>
+                            <div th:text="*{totalPrice()+'€'}">Price</div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
         <div class="col-12 center-block text-center">
             <h2>Pay your Delivery with PayPaul</h2>
             <hr>
@@ -38,22 +163,13 @@
             </div>
         </div>
     </div>
-    <div    class="row">
+    <div class="row">
         <div class="col text-center">
-
             <button type="submit" class="btn btn-primary btn-lg ">Pay</button>
         </div>
     </div>
 </form>
-<div class="row ">
-    <!--/*@thymesVar id="success" type="string"*/-->
-    <div class="col-12 center-block text-center" scope="row" colspan="4">
 
-        <div th:if="${success != null}" class="alert alert-success" role="alert" th:text="${success}">
-
-        </div>
-    </div>
-</div>
 <div class="row ">
     <!--/*@thymesVar id="error" type="string"*/-->
     <div class="col-12 center-block text-center" scope="row" colspan="4">

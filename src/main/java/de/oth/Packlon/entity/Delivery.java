@@ -43,6 +43,13 @@ public class Delivery extends SingelIdEntity<Long> {
         paid = false;
 
     }
+    public float totalPrice(){
+        int total =0;
+        for (LineItem item : lineItemList){
+            total += item.getPrice();
+        }
+         return total/100;
+    }
 
     public boolean isPaid() {
         return paid;
