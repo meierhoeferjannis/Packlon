@@ -1,21 +1,32 @@
 package de.oth.Packlon.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import de.oth.Packlon.entity.*;
 import de.oth.Packlon.repository.DeliveryRepository;
 import de.oth.Packlon.service.model.DeliveryRequestException;
+import de.oth.Packlon.service.model.TransactionDTO;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
 public class DeliveryService {
+    @Autowired
+    private RestTemplate restServerClient;
     @Autowired
     private AccountService accountService;
     @Autowired
@@ -113,13 +124,35 @@ public class DeliveryService {
 
     }
 
-    public Delivery payDelivery(Delivery delivery) {
+    public Delivery payDelivery(Delivery delivery, String username, String password) throws JsonProcessingException {
+
+        TransactionDTO transactionDTO = new TransactionDTO("packlon@web.de", delivery.totalPrice(), "Reference:" + delivery.id);
+        HttpClient client = HttpClient.newHttpClient();
+        ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String jsonTransactionDTO = writer.writeValueAsString(transactionDTO);
+        URI uri = URI.create("http://localhost:9090/requestTransaction");
+        HttpHeaders headers = createHeaders(username, password);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> request = new HttpEntity<String>(jsonTransactionDTO, headers);
+        String response = restServerClient.postForObject(uri, request, String.class);
+
+
         int amount = 0;
         for (LineItem l : delivery.getLineItemList()) {
             amount += l.getPrice();
         }
         delivery.setPaid(true);
         return deliveryRepository.save(delivery);
+    }
+
+    private HttpHeaders createHeaders(String username, String password) {
+        return new HttpHeaders() {{
+            String auth = username + ":" + password;
+            byte[] encodedAuth = Base64.encodeBase64(
+                    auth.getBytes(Charset.forName("US-ASCII")));
+            String authHeader = "Basic " + new String(encodedAuth);
+            set("Authorization", authHeader);
+        }};
     }
 
 
