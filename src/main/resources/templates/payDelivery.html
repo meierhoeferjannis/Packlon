@@ -19,9 +19,12 @@
 <body>
 <div th:replace="fragments/navigation"></div>
 <!--/*@thymesVar id="deliveryId" type="long"*/-->
-<form class="form-horizontal" role="form" th:method="POST" th:action="@{/pay(deliveryId = ${delivery.id})}">
+<form class="form-horizontal" role="form" th:method="POST"  th:action="@{/pay(deliveryId = ${delivery.id})}">
+
+    <!--Delivery from User-->
+    <div class="container">
     <div class="row">
-        <div class="container" th:object="${delivery}">
+        <div class="container" th:object="${delivery}" >
             <div class="row">
                 <div class="col-12 center-block text-center">
                     <h2>Selected Delivery</h2>
@@ -143,6 +146,12 @@
                 </div>
             </div>
             </div>
+
+
+
+    </div>
+    </div>
+    <div class="row">
         <div class="col-12 center-block text-center">
             <h2>Pay your Delivery with PayPaul</h2>
             <hr>
@@ -150,15 +159,30 @@
     </div>
     <div class="row">
         <div class="col-md-3 field-label-responsive text-center">
-            <label for="paymentReference"> Your Pay Paul Email</label>
+            <label for="username"> Your Pay Paul Email</label>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-pack"></i></div>
-                    <input type="text" class="form-control" id="paymentReference"
-                           name="paymentReference"
+                    <input type="text" class="form-control" id="username"
+                           name="username"
                            placeholder="john@web.de" required autofocus>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 field-label-responsive text-center">
+            <label for="password"> Your Pay Paul Password</label>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-pack"></i></div>
+                    <input type="password" class="form-control" id="password"
+                           name="password"
+                           placeholder="*****" required autofocus>
                 </div>
             </div>
         </div>

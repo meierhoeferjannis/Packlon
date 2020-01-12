@@ -30,8 +30,9 @@ public class TrackDeliveryController {
     private StorageLocationService storageLocationService;
 
     public void addLocationPage(Model model, int pageLocation) {
+        model.addAttribute("pageLcoation",pageLocation);
         if (pageLocation != 0) {
-            Page<StorageLocation> storageLocations = storageLocationService.getStorageLocationPage(PageRequest.of(pageLocation - 1, 5));
+            Page<StorageLocation> storageLocations = storageLocationService.getStorageLocationPage(PageRequest.of(pageLocation - 1, 3));
             model.addAttribute("storageLocations", storageLocations);
             int totalPages = storageLocations.getTotalPages();
             if (totalPages > 0) {
@@ -41,7 +42,7 @@ public class TrackDeliveryController {
                 model.addAttribute("pageNumbersLocation", pageNumbersUnpaid);
             }
         } else {
-            model.addAttribute("storageLocations", new ArrayList<StorageLocation>());
+            model.addAttribute("storageLocations",  Page.empty());
         }
 
     }
@@ -84,9 +85,9 @@ public class TrackDeliveryController {
         StorageLocation storageLocation = storageLocationService.getStorageLocationById(storageLocationId);
         delivery.setStorageLocation(storageLocation);
         Status status = new Status();
-        status.setText("You change the Destination to Storage Location " + storageLocation.getName() + " "
+        status.setText("You change the Destination to Storage Location: " + storageLocation.getName() + " "
                 + storageLocation.getStorageLocationType().getName() +
-                " Address"
+                " Address: "
                 + storageLocation.getAddress().getCountry() + " "
                 + storageLocation.getAddress().getCity() + " "
                 + storageLocation.getAddress().getPostCode() + " "

@@ -63,11 +63,10 @@
     </tbody>
 </table>
 
-<div class="row">
-    <div class="col-12 center-block text-center">
+
         <nav th:if="${paidDeliverys.totalPages > 0}" aria-label="Page navigation example">
-            <ul class="pagination justify-content-center" th:each="pageNumber : ${pageNumbersPaid}">
-                <li class="page-item">
+            <ul class="pagination justify-content-center" >
+                <li class="page-item" th:each="pageNumber : ${pageNumbersPaid}">
                     <a class="page-link" th:href="@{/accountPaidDeliverys(pagePaid=${pageNumber})}"
                        th:text=${pageNumber}
                     ></a>
@@ -75,8 +74,7 @@
 
             </ul>
         </nav>
-    </div>
-</div>
+
 
 </body>
 </html>

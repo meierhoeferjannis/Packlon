@@ -5,6 +5,7 @@ import de.oth.Packlon.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,10 +25,14 @@ public class PayDeliveryController {
     }
 
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
-    public String pay(Model model, Delivery delivery, @RequestParam(name = "deliveryId") long deliveryId, RedirectAttributes redirectAttributes) {
-        Delivery delivery1 = deliveryService.getDeliveryById(deliveryId);
+    public String pay(Model model,
+                      @RequestParam(name = "deliveryId") long deliveryId,
+                      @ModelAttribute(name = "password") String password,
+                      @ModelAttribute(name = "username") String username,
+                      RedirectAttributes redirectAttributes) {
+        Delivery delivery = deliveryService.getDeliveryById(deliveryId);
         try {
-            //  deliveryService.payDelivery(delivery);
+            //deliveryService.payDelivery(delivery,username,password);
 
             redirectAttributes.addFlashAttribute("success", "You succesfully paid your delivery. You can now download you label under Account->Paid Deliverys");
             return "redirect:/index";

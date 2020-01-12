@@ -136,11 +136,6 @@ public class DeliveryService {
         HttpEntity<String> request = new HttpEntity<String>(jsonTransactionDTO, headers);
         String response = restServerClient.postForObject(uri, request, String.class);
 
-
-        int amount = 0;
-        for (LineItem l : delivery.getLineItemList()) {
-            amount += l.getPrice();
-        }
         delivery.setPaid(true);
         return deliveryRepository.save(delivery);
     }

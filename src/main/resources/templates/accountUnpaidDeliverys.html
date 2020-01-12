@@ -59,20 +59,18 @@
     </tr>
     </tbody>
 </table>
-<div class="row">
-    <div class="col-12 center-block text-center">
-        <nav th:if="${unpaidDeliverys.totalPages > 0}" aria-label="Page navigation example">
-            <ul class="pagination justify-content-center" th:each="pageNumber : ${pageNumbersUnpaid}">
-                <li class="page-item">
-                    <a class="page-link" th:href="@{/accountUnpaidDeliverys(pageUnpaid=${pageNumber})}"
-                       th:text=${pageNumber}
-                    ></a>
-                </li>
 
-            </ul>
-        </nav>
-    </div>
-</div>
+
+<nav th:if="${unpaidDeliverys.totalPages > 0}" aria-label="Page navigation example">
+    <ul class="pagination justify-content-center" >
+        <li class="page-item" th:each="pageNumber : ${pageNumbersUnpaid}">
+            <a class="page-link" th:href="@{/accountUnpaidDeliverys(pageUnpaid=${pageNumber})}" th:text=${pageNumber}></a>
+        </li>
+
+    </ul>
+</nav>
+
+
 <div class="row ">
     <!--/*@thymesVar id="error" type="string"*/-->
     <div class="col-12 center-block text-center" scope="row" colspan="4">

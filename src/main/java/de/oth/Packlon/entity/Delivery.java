@@ -46,13 +46,18 @@ public class Delivery extends SingelIdEntity<Long> {
 
     public int totalPrice() {
         int total = 0;
+        if (lineItemList.isEmpty())
+            return 0;
         for (LineItem item : lineItemList) {
+            item.calculatePrice();
             total += item.getPrice();
         }
         return total;
     }
 
     public float totalPriceFormatted() {
+        if (lineItemList.isEmpty())
+            return 0;
         return totalPrice() / 100;
     }
 
