@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class RegistrationController {
 
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private AddressService addressService;
+    private final AccountService accountService;
+    private final CustomerService customerService;
+    private final AddressService addressService;
+
+    public RegistrationController(AccountService accountService, CustomerService customerService, AddressService addressService) {
+        this.accountService = accountService;
+        this.customerService = customerService;
+        this.addressService = addressService;
+    }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(

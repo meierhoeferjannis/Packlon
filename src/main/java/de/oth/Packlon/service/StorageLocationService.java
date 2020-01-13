@@ -13,8 +13,12 @@ import java.util.List;
 
 @Service
 public class StorageLocationService {
-    @Autowired
-    private StorageLocationRepository storageLocationRepository;
+    private final StorageLocationRepository storageLocationRepository;
+
+    public StorageLocationService(StorageLocationRepository storageLocationRepository) {
+        this.storageLocationRepository = storageLocationRepository;
+    }
+
     public List<StorageLocation> getStorageLocationsByPostCode(int postCode){
         List<StorageLocation> result = new ArrayList<StorageLocation>();
 

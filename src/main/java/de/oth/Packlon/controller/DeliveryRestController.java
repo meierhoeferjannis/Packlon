@@ -18,10 +18,13 @@ import java.security.Principal;
 
 @RestController
 public class DeliveryRestController {
-    @Autowired
-    private DeliveryService deliveryService;
-    @Autowired
-    private AccountService accountService;
+    private final DeliveryService deliveryService;
+    private final AccountService accountService;
+
+    public DeliveryRestController(DeliveryService deliveryService, AccountService accountService) {
+        this.deliveryService = deliveryService;
+        this.accountService = accountService;
+    }
 
     @RequestMapping(value = "/restapi/delivery", method = RequestMethod.POST)
     public ResponseEntity<Long> postDelivery(@RequestBody Delivery delivery, Principal principal) throws DeliveryRequestException {

@@ -26,12 +26,15 @@ import java.util.stream.IntStream;
 
 @Controller
 public class AccountController {
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private DeliveryService deliveryService;
-    @Autowired
-    private AddressService addressService;
+    private final AccountService accountService;
+    private final DeliveryService deliveryService;
+    private final AddressService addressService;
+
+    public AccountController(AccountService accountService, DeliveryService deliveryService, AddressService addressService) {
+        this.accountService = accountService;
+        this.deliveryService = deliveryService;
+        this.addressService = addressService;
+    }
 
     @RequestMapping(value = {"/accountDetails"},method =  RequestMethod.GET)
     public String accountDetails(Model model){

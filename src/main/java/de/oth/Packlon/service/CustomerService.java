@@ -2,15 +2,17 @@ package de.oth.Packlon.service;
 
 import de.oth.Packlon.entity.Customer;
 import de.oth.Packlon.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class CustomerService {
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
+
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
 
     public Customer mergeCustomer(Customer customer) {
         Customer ret = customerRepository.save(customer);

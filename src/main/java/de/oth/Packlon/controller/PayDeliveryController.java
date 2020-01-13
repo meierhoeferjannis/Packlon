@@ -15,8 +15,11 @@ import java.util.Optional;
 
 @Controller
 public class PayDeliveryController {
-    @Autowired
-    private DeliveryService deliveryService;
+    private final DeliveryService deliveryService;
+
+    public PayDeliveryController(DeliveryService deliveryService) {
+        this.deliveryService = deliveryService;
+    }
 
     @RequestMapping(value = "/payDelivery", method = RequestMethod.GET)
     public String payDelivery(Model model, @RequestParam(name = "deliveryId") long deliveryId) {

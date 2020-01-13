@@ -24,10 +24,13 @@ import java.util.stream.IntStream;
 
 @Controller
 public class TrackDeliveryController {
-    @Autowired
-    private DeliveryService deliveryService;
-    @Autowired
-    private StorageLocationService storageLocationService;
+    private final DeliveryService deliveryService;
+    private final StorageLocationService storageLocationService;
+
+    public TrackDeliveryController(DeliveryService deliveryService, StorageLocationService storageLocationService) {
+        this.deliveryService = deliveryService;
+        this.storageLocationService = storageLocationService;
+    }
 
     public void addLocationPage(Model model, int pageLocation) {
         model.addAttribute("pageLcoation",pageLocation);

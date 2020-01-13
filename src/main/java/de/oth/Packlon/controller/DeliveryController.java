@@ -20,14 +20,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class DeliveryController {
-    @Autowired
-    private DeliveryService deliveryService;
-    @Autowired
-    private PackService packService;
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private AddressService addressService;
+    private final DeliveryService deliveryService;
+    private final PackService packService;
+    private final AccountService accountService;
+    private final AddressService addressService;
+
+    public DeliveryController(DeliveryService deliveryService, PackService packService, AccountService accountService, AddressService addressService) {
+        this.deliveryService = deliveryService;
+        this.packService = packService;
+        this.accountService = accountService;
+        this.addressService = addressService;
+    }
 
     @RequestMapping(value = "/delivery", method = RequestMethod.GET)
     public String delivery(Model model) {

@@ -19,16 +19,19 @@ import java.util.Optional;
 @Service
 @Qualifier("accountService")
 public class AccountService implements UserDetailsService {
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private AccountRoleRepository accountRoleRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AccountRepository accountRepository;
+    private final AccountRoleRepository accountRoleRepository;
+    private final RoleRepository roleRepository;
+    private final CustomerService customerService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public AccountService(AccountRepository accountRepository, AccountRoleRepository accountRoleRepository, RoleRepository roleRepository, CustomerService customerService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.accountRepository = accountRepository;
+        this.accountRoleRepository = accountRoleRepository;
+        this.roleRepository = roleRepository;
+        this.customerService = customerService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     public Account createAccount(Account account) {
 

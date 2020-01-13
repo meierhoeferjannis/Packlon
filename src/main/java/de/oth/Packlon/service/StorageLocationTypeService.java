@@ -11,8 +11,11 @@ import java.util.List;
 
 @Service
 public class StorageLocationTypeService {
-    @Autowired
-    private StorageLocationTypeRepository storageLocationTypeRepository;
+    private final StorageLocationTypeRepository storageLocationTypeRepository;
+
+    public StorageLocationTypeService(StorageLocationTypeRepository storageLocationTypeRepository) {
+        this.storageLocationTypeRepository = storageLocationTypeRepository;
+    }
 
     public List<StorageLocationType> getAllStorageLocationTypes() {
         List<StorageLocationType> result = new ArrayList<StorageLocationType>();

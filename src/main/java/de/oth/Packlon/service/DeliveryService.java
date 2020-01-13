@@ -2,14 +2,13 @@ package de.oth.Packlon.service;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+
 import de.oth.Packlon.entity.*;
 import de.oth.Packlon.repository.DeliveryRepository;
 import de.oth.Packlon.service.model.DeliveryRequestException;
 import de.oth.Packlon.service.model.TransactionDTO;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
@@ -18,27 +17,30 @@ import org.springframework.web.client.RestTemplate;
 
 
 import java.net.URI;
-import java.net.http.HttpClient;
+
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class DeliveryService {
-    @Autowired
-    private RestTemplate restServerClient;
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private DeliveryRepository deliveryRepository;
-    @Autowired
-    private CustomerService customerService;
-    @Autowired
-    private LineItemService lineItemService;
-    @Autowired
-    private AddressService addressService;
-    @Autowired
-    private PackService packService;
+    private final RestTemplate restServerClient;
+    private final AccountService accountService;
+    private final DeliveryRepository deliveryRepository;
+    private final CustomerService customerService;
+    private final LineItemService lineItemService;
+    private final AddressService addressService;
+    private final PackService packService;
+
+    public DeliveryService(RestTemplate restServerClient, AccountService accountService, DeliveryRepository deliveryRepository, CustomerService customerService, LineItemService lineItemService, AddressService addressService, PackService packService) {
+        this.restServerClient = restServerClient;
+        this.accountService = accountService;
+        this.deliveryRepository = deliveryRepository;
+        this.customerService = customerService;
+        this.lineItemService = lineItemService;
+        this.addressService = addressService;
+        this.packService = packService;
+    }
 
     public Page<Delivery> getDeliveryPageForSender(boolean paid, Customer sender, Pageable pageable) {
         return deliveryRepository.findAllByPaidAndSender(paid, sender, pageable);
@@ -127,15 +129,13 @@ public class DeliveryService {
     public Delivery payDelivery(Delivery delivery, String username, String password) throws JsonProcessingException {
 
         TransactionDTO transactionDTO = new TransactionDTO("packlon@web.de", delivery.totalPrice(), "Reference:" + delivery.id);
-        HttpClient client = HttpClient.newHttpClient();
-        ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String jsonTransactionDTO = writer.writeValueAsString(transactionDTO);
+
+
         URI uri = URI.create("http://localhost:9090/requestTransaction");
         HttpHeaders headers = createHeaders(username, password);
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<String>(jsonTransactionDTO, headers);
-        String response = restServerClient.postForObject(uri, request, String.class);
-
+        HttpEntity<TransactionDTO> request = new HttpEntity<>(transactionDTO, headers);
+        restServerClient.postForObject(uri, request, TransactionDTO.class);
         delivery.setPaid(true);
         return deliveryRepository.save(delivery);
     }

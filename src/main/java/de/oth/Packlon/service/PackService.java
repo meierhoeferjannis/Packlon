@@ -12,8 +12,12 @@ import java.util.Optional;
 
 @Service
 public class PackService {
-    @Autowired
-    private PackRepository packRepository;
+    private final PackRepository packRepository;
+
+    public PackService(PackRepository packRepository) {
+        this.packRepository = packRepository;
+    }
+
     public List<Pack> getAllPacks(){
         List<Pack> result = new ArrayList<Pack>();
           packRepository.findAll().forEach(result::add);
