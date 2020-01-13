@@ -37,8 +37,7 @@
         <th scope="col"> Receiver Postcode</th>
         <th scope="col"> Receiver Street</th>
         <th scope="col"> Receiver addition</th>
-        <th scope="col"> Cancel Delivery</th>
-        <th scope="col"> Pay Delivery</th>
+        <th scope="col"> Print Delivery Label</th>
     </tr>
     </thead>
     <tbody>
@@ -55,10 +54,9 @@
         <td><span th:text="${delivery.receiverAddress.postCode}"> Receiver Postcode </span></td>
         <td><span th:text="${delivery.receiverAddress.street}"> Receiver Street </span></td>
         <td><span th:text="${delivery.receiverAddress.addition}"> Receiver Addition </span></td>
-        <td><a th:if="${delivery.delivered}" th:href="@{/printDeliveryLabel(deliveryId=${delivery.id})}"
-               class="btn btn-primary">Print label</a></td>
-        <td><a th:if="${!delivery.delivered}" th:href="@{/printDeliveryLabel(deliveryId=${delivery.id})}"
-               class="btn btn-primary">Print label</a></td>
+        <td><a  th:href="@{/getDeliveryLabel(deliveryId=${delivery.id})}"
+               class="btn btn-primary">Download label</a></td>
+
     </tr>
     </tbody>
 </table>
