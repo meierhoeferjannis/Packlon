@@ -9,9 +9,11 @@ public class Status extends SingelIdEntity<Long> {
     private String text;
     @Temporal(TemporalType.DATE)
     private Date statusCreated;
-    public Status(){
+    public Status(String text){
         statusCreated = new Date();
+        this.text = text;
     }
+    public Status(){statusCreated = new Date();}
 
 
     public String getText() {

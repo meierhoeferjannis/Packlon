@@ -30,7 +30,7 @@ public class Delivery extends SingelIdEntity<Long> {
     private Date paymentDate;
     @NotNull
     private boolean paid;
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     private List<Status> statusList;
     private String paymentReference;
     @OneToMany(cascade = {CascadeType.ALL})

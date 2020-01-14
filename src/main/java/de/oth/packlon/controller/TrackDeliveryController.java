@@ -31,7 +31,7 @@ public class TrackDeliveryController {
     }
 
     public void addLocationPage(Model model, int pageLocation) {
-        model.addAttribute("pageLcoation",pageLocation);
+        model.addAttribute("pageNumber",pageLocation);
         if (pageLocation != 0) {
             Page<StorageLocation> storageLocations = storageLocationService.getStorageLocationPage(PageRequest.of(pageLocation - 1, 3));
             model.addAttribute("storageLocations", storageLocations);
@@ -40,7 +40,7 @@ public class TrackDeliveryController {
                 List<Integer> pageNumbersUnpaid = IntStream.rangeClosed(1, totalPages)
                         .boxed()
                         .collect(Collectors.toList());
-                model.addAttribute("pageNumbersLocation", pageNumbersUnpaid);
+                model.addAttribute("pageNumbersLocations", pageNumbersUnpaid);
             }
         } else {
             model.addAttribute("storageLocations",  Page.empty());
@@ -52,12 +52,21 @@ public class TrackDeliveryController {
     public String getTrackDeliveryView(Model model,
                                        @RequestParam(name = "deliveryId") Optional<Long> deliveryId,
                                        @RequestParam(name = "pageLocation") Optional<Integer> pageLocation) {
-        if (deliveryId.isPresent()) {
-            model.addAttribute("deliveryStatus", deliveryService.getDeliveryById(deliveryId.get()).getStatusList());
-        } else {
-            model.addAttribute("deliveryStatus", new ArrayList<Status>());
-        }
         addLocationPage(model, pageLocation.orElse(0));
+        try{
+            if (deliveryId.isPresent()) {
+                model.addAttribute("deliveryStatus", deliveryService.getDeliveryById(deliveryId.get()).getStatusList());
+                model.addAttribute("deliveryId", deliveryId.get());
+            } else {
+                model.addAttribute("deliveryStatus", new ArrayList<Status>());
+            }
+        }catch (Exception e){
+            model.addAttribute("deliveryStatus", new ArrayList<Status>());
+
+            model.addAttribute("response", "Your Delivery was not found");
+        }
+
+
         return "trackDelivery";
     }
 
@@ -65,14 +74,14 @@ public class TrackDeliveryController {
     @RequestMapping(value = {"/track"}, method = RequestMethod.POST)
     public String track(@ModelAttribute("deliveryId") long deliveryId, Model model,@RequestParam(name = "pageLocation") Optional<Integer> pageLocation) {
 
-        addLocationPage(model,pageLocation.orElse(1));
+
         try {
             model.addAttribute("deliveryStatus", deliveryService.getDeliveryById(deliveryId).getStatusList());
-
+            addLocationPage(model,pageLocation.orElse(1));
             model.addAttribute("deliveryId", deliveryId);
         } catch (Exception e) {
             model.addAttribute("deliveryStatus", new ArrayList<Status>());
-
+            addLocationPage(model,pageLocation.orElse(0));
             model.addAttribute("response", "Your Delivery was not found");
         }
         return "trackDelivery";

@@ -244,6 +244,8 @@ public class DeliveryService {
         verticalAlignCell.setVerticalAlignment(Element.ALIGN_BOTTOM);
         table.addCell(verticalAlignCell);
     }
-
+    public List<Delivery> findAllPaid(){
+       return deliveryRepository.findAllByPaidAndSubmittedIsNull(true);
+    }
 
 }
