@@ -2,11 +2,9 @@ package de.oth.packlon.service;
 
 import de.oth.packlon.entity.Delivery;
 import de.oth.packlon.entity.Status;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +24,7 @@ public class Postman {
     @Scheduled(fixedRate = 120000)
     public void submit() {
         try{
-            List<Delivery> deliveries = deliveryService.findAllPaid();
+            List<Delivery> deliveries = deliveryService.getDeliveriesToDeliver();
             if (!deliveries.isEmpty()) {
                 for (Delivery item : deliveries) {
                     item.setSubmitted(new Date());

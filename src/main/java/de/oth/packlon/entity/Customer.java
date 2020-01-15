@@ -9,6 +9,12 @@ public class Customer extends SingelIdEntity<Long> {
     private String firstName;
     private String lastName;
 
+    public Customer(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    public Customer(){}
+
     public String getFirstName() {
         return firstName;
     }

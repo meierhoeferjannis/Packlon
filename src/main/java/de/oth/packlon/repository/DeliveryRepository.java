@@ -14,5 +14,6 @@ public interface DeliveryRepository extends PagingAndSortingRepository<Delivery,
 
     Page<Delivery> findAllByPaidAndSender(boolean paid, Customer sender, Pageable pageable);
     List<Delivery> findAllByPaidAndSubmittedIsNull(boolean paid);
+    List<Delivery> findAllByCashOnDeliveryOrPaidAndSubmittedIsNull(boolean cashOnDelivery,boolean paid);
 
 }

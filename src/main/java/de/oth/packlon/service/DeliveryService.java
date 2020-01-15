@@ -3,6 +3,9 @@ package de.oth.packlon.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.jsonschema.JsonSchema;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
@@ -14,12 +17,14 @@ import de.oth.packlon.service.model.TransactionDTO;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.sound.midi.Receiver;
 import java.io.*;
 import java.net.URI;
 
@@ -137,10 +142,38 @@ public class DeliveryService {
 
     }
 
+    public void requestDeliveryTest() {
+        try {
+            Delivery delivery = new Delivery();
+            Customer receiver = new Customer();
+            receiver.setFirstName("Test");
+            receiver.setLastName("Test");
+            Address receiverAddress = new Address("Teststr", "testland", 33, "Testcitiy");
+            delivery.setReceiver(receiver);
+            delivery.setReceiverAddress(receiverAddress);
+
+            delivery.addLineItem(new LineItem(3, new Pack(0, "S")));
+            ObjectMapper Obj = new ObjectMapper();
+
+            String jsonStr = Obj.writeValueAsString(delivery);
+
+            System.out.println(jsonStr);
+
+            URI uri = URI.create("http://localhost:9444/restapi/delivery");
+            HttpHeaders headers = createHeaders("jannism1@web.de", "jannis3108");
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Delivery> request = new HttpEntity<>(delivery, headers);
+            ResponseEntity<String> ret = restServerClient.postForEntity(uri, request, String.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     public Delivery payDelivery(Delivery delivery, String username, String password) throws JsonProcessingException {
 
         TransactionDTO transactionDTO = new TransactionDTO("packlon@web.de", delivery.totalPrice(), "Reference:" + delivery.id);
-        URI uri = URI.create("http://localhost:9090/requestTransaction");
+        URI uri = URI.create("http://im-codd.oth-regensburg.de:8827/requestTransaction");
         HttpHeaders headers = createHeaders(username, password);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<TransactionDTO> request = new HttpEntity<>(transactionDTO, headers);
@@ -160,13 +193,14 @@ public class DeliveryService {
         }};
     }
 
+
     public InputStream createPDFforDelivery(long deliveryId) throws IOException, DocumentException {
         Delivery delivery = deliveryRepository.findById(deliveryId).get();
         Document document = new Document();
 
         PdfWriter.getInstance(document, new FileOutputStream(delivery.id + "decrypted.pdf"));
         document.open();
-               PdfPTable table = new PdfPTable(4);
+        PdfPTable table = new PdfPTable(4);
         addTableHeader(table);
         addRows(table, delivery);
         document.add(table);
@@ -244,8 +278,9 @@ public class DeliveryService {
         verticalAlignCell.setVerticalAlignment(Element.ALIGN_BOTTOM);
         table.addCell(verticalAlignCell);
     }
-    public List<Delivery> findAllPaid(){
-       return deliveryRepository.findAllByPaidAndSubmittedIsNull(true);
+
+    public List<Delivery> getDeliveriesToDeliver() {
+        return deliveryRepository.findAllByCashOnDeliveryOrPaidAndSubmittedIsNull(true, true);
     }
 
 }

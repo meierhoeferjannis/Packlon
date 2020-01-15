@@ -12,6 +12,13 @@ public class Address extends SingelIdEntity<Long> {
     private String city;
     private String addition;
 
+    public Address(String street, String country, int postCode, String city) {
+        this.street = street;
+        this.country = country;
+        this.postCode = postCode;
+        this.city = city;
+    }
+    public Address(){}
 
     public String getStreet() {
         return street;
