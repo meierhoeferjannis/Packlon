@@ -31,6 +31,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Service
-public class DeliveryService {
+public class DeliveryService implements IDeliveryService {
     private final RestTemplate restServerClient;
     private final AccountService accountService;
     private final DeliveryRepository deliveryRepository;
@@ -58,10 +59,12 @@ public class DeliveryService {
         this.packService = packService;
     }
 
+    @Override
     public Page<Delivery> getDeliveryPageForSender(boolean paid, Customer sender, Pageable pageable) {
         return deliveryRepository.findAllByPaidAndSender(paid, sender, pageable);
     }
 
+    @Override
     public Delivery createDelivery(Delivery delivery) {
         delivery.setReceiver(customerService.getCustomerByName(delivery.getReceiver()));
         delivery.setSender(customerService.getCustomerByName(delivery.getSender()));
@@ -90,18 +93,22 @@ public class DeliveryService {
 
     }
 
+    @Override
     public void deleteDelivery(long deliveryId) {
         deliveryRepository.deleteById(deliveryId);
     }
 
+    @Override
     public Delivery getDeliveryById(long deliveryId) {
         return deliveryRepository.findById(deliveryId).get();
     }
 
+    @Override
     public Delivery updateDelivery(Delivery delivery) {
         return deliveryRepository.save(delivery);
     }
 
+    @Override
     public long requestDelivery(Delivery delivery, Account account) throws DeliveryRequestException {
         try {
             Delivery newDelivery = new Delivery();
@@ -142,6 +149,7 @@ public class DeliveryService {
 
     }
 
+    @Override
     public void requestDeliveryTest() {
         try {
             Delivery delivery = new Delivery();
@@ -170,6 +178,7 @@ public class DeliveryService {
 
     }
 
+    @Override
     public Delivery payDelivery(Delivery delivery, String username, String password) throws JsonProcessingException {
 
         TransactionDTO transactionDTO = new TransactionDTO("packlon@web.de", delivery.totalPrice(), "Reference:" + delivery.id);
@@ -194,6 +203,7 @@ public class DeliveryService {
     }
 
 
+    @Override
     public InputStream createPDFforDelivery(long deliveryId) throws IOException, DocumentException {
         Delivery delivery = deliveryRepository.findById(deliveryId).get();
         Document document = new Document();
@@ -218,6 +228,7 @@ public class DeliveryService {
 
         pdfStamper.close();
         InputStream in = new FileInputStream(delivery.id + ".pdf");
+        Files.delete(Path.of(deliveryId+".pdf"));
         return in;
     }
 
@@ -279,6 +290,7 @@ public class DeliveryService {
         table.addCell(verticalAlignCell);
     }
 
+    @Override
     public List<Delivery> getDeliveriesToDeliver() {
         return deliveryRepository.findAllByCashOnDeliveryOrPaidAndSubmittedIsNull(true, true);
     }

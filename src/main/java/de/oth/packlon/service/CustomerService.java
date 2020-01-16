@@ -7,19 +7,21 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CustomerService {
+public class CustomerService implements ICustomerService {
     private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
+    @Override
     public Customer mergeCustomer(Customer customer) {
         Customer ret = customerRepository.save(customer);
         return ret;
 
     }
 
+    @Override
     public Customer getCustomerByName(Customer cust) {
         Optional<Customer> customer = customerRepository.findByFirstNameAndLastName(cust.getFirstName(), cust.getLastName());
 
@@ -36,6 +38,7 @@ public class CustomerService {
 
     }
 
+    @Override
     public Customer getCustomerById(long customerId) {
         Optional<Customer> customer = customerRepository.findById(customerId);
         return customer.get();

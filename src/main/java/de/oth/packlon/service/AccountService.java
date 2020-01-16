@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Qualifier("accountService")
-public class AccountService implements UserDetailsService {
+public class AccountService implements IAccountService {
     private final AccountRepository accountRepository;
     private final AccountRoleRepository accountRoleRepository;
     private final RoleRepository roleRepository;
@@ -29,6 +29,7 @@ public class AccountService implements UserDetailsService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    @Override
     public Account createAccount(Account account) {
 
         Customer customer = customerService.getCustomerByName(account.getOwner());
@@ -43,6 +44,7 @@ public class AccountService implements UserDetailsService {
         return accountRepository.save(ret);
 
     }
+    @Override
     public Account addDelivery(long accountId, Delivery delivery){
       Account  account = accountRepository.findById(accountId).get();
       account.addDelivery(delivery);
@@ -50,6 +52,7 @@ public class AccountService implements UserDetailsService {
       return account;
     }
 
+    @Override
     public boolean existsAccountWithEmail(String email) {
         return accountRepository.existsAccountByEmail(email);
     }
@@ -65,13 +68,16 @@ public class AccountService implements UserDetailsService {
 
     }
 
+    @Override
     public Account getAccountByEmail(String email) {
        return accountRepository.findByEmail(email).get();
     }
 
+    @Override
     public void deleteAccount(long accountId) {
         accountRepository.deleteById(accountId);
     }
+    @Override
     public Account updateAccount(Account account){
         return accountRepository.save(account);
     }

@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StorageLocationTypeService {
+public class StorageLocationTypeService implements IStorageLocationTypeService {
     private final StorageLocationTypeRepository storageLocationTypeRepository;
 
     public StorageLocationTypeService(StorageLocationTypeRepository storageLocationTypeRepository) {
         this.storageLocationTypeRepository = storageLocationTypeRepository;
     }
 
+    @Override
     public List<StorageLocationType> getAllStorageLocationTypes() {
         List<StorageLocationType> result = new ArrayList<StorageLocationType>();
         storageLocationTypeRepository.findAll().forEach(result::add);

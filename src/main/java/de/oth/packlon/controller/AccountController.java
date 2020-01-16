@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -116,7 +118,7 @@ public class AccountController {
             IOUtils.copy(is, response.getOutputStream());
             response.flushBuffer();
         } catch (IOException | DocumentException ex) {
-
+            System.out.println(ex.getMessage());
         }
 
     }
