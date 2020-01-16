@@ -150,35 +150,6 @@ public class DeliveryService implements IDeliveryService {
     }
 
     @Override
-    public void requestDeliveryTest() {
-        try {
-            Delivery delivery = new Delivery();
-            Customer receiver = new Customer();
-            receiver.setFirstName("Test");
-            receiver.setLastName("Test");
-            Address receiverAddress = new Address("Teststr", "testland", 33, "Testcitiy");
-            delivery.setReceiver(receiver);
-            delivery.setReceiverAddress(receiverAddress);
-
-            delivery.addLineItem(new LineItem(3, new Pack(0, "S")));
-            ObjectMapper Obj = new ObjectMapper();
-
-            String jsonStr = Obj.writeValueAsString(delivery);
-
-            System.out.println(jsonStr);
-
-            URI uri = URI.create("http://localhost:9444/restapi/delivery");
-            HttpHeaders headers = createHeaders("jannism1@web.de", "jannis3108");
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Delivery> request = new HttpEntity<>(delivery, headers);
-            ResponseEntity<String> ret = restServerClient.postForEntity(uri, request, String.class);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    @Override
     public Delivery payDelivery(Delivery delivery, String username, String password) throws JsonProcessingException {
 
         TransactionDTO transactionDTO = new TransactionDTO("packlon@web.de", delivery.totalPrice(), "Reference:" + delivery.id);

@@ -26,8 +26,6 @@ public interface IDeliveryService {
 
     long requestDelivery(Delivery delivery, Account account) throws DeliveryRequestException;
 
-    void requestDeliveryTest();
-
     Delivery payDelivery(Delivery delivery, String username, String password) throws JsonProcessingException;
 
     InputStream createPDFforDelivery(long deliveryId) throws IOException, DocumentException;

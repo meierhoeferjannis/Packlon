@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
+			<version>5.1.48</version>
 		</dependency>
 
 		<dependency>
@@ -108,17 +108,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>
+						de.oth.packlon.PacklonApplication
+					</mainClass>
+					<executable>true</executable>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
 							<goal>repackage</goal>
 						</goals>
-						<configuration>
-							<classifier>spring-boot</classifier>
-							<mainClass>
-								de.oth.packlon.PacklonApplication
-							</mainClass>
-						</configuration>
+
 					</execution>
 				</executions>
 			</plugin>
