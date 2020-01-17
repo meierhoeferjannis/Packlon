@@ -112,9 +112,9 @@ public class AccountController {
             @RequestParam(name = "deliveryId") long deliveryId,
             HttpServletResponse response) {
         try {
-            // get your file as InputStream
+
             InputStream is = deliveryService.createPDFforDelivery(deliveryId);
-            // copy it to response's OutputStream
+
             IOUtils.copy(is, response.getOutputStream());
             response.flushBuffer();
         } catch (IOException | DocumentException ex) {

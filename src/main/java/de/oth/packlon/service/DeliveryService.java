@@ -148,6 +148,11 @@ public class DeliveryService implements IDeliveryService {
             }
             Status status = new Status();
             status.setText("Delivery Created per Request");
+            if (delivery.getPaymentReference() == null){
+                newDelivery.setPaymentDate(new Date());
+                newDelivery.setPaid(true);
+            }
+
             newDelivery.addStatus(status);
             return deliveryRepository.save(newDelivery).id;
         } catch (Exception e) {

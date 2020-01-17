@@ -32,9 +32,8 @@ public class PayDeliveryController {
                       RedirectAttributes redirectAttributes) {
         Delivery delivery = deliveryService.getDeliveryById(deliveryId);
         try {
-            delivery.setPaid(true);
-            deliveryService.updateDelivery(delivery);
-            //deliveryService.payDelivery(delivery,username,password);
+
+            deliveryService.payDelivery(delivery,username,password);
 
             redirectAttributes.addFlashAttribute("success", "You succesfully paid your delivery. You can now download you label under Account->Paid Deliverys");
             return "redirect:/index";

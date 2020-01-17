@@ -74,7 +74,6 @@ public class TrackDeliveryController {
     @RequestMapping(value = {"/track"}, method = RequestMethod.POST)
     public String track(@ModelAttribute("deliveryId") long deliveryId, Model model,@RequestParam(name = "pageLocation") Optional<Integer> pageLocation) {
 
-
         try {
             model.addAttribute("deliveryStatus", deliveryService.getDeliveryById(deliveryId).getStatusList());
             addLocationPage(model,pageLocation.orElse(1));

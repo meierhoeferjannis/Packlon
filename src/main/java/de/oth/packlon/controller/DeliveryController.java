@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Date;
 
 
 @Controller
@@ -48,6 +49,10 @@ public class DeliveryController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             Account account = accountService.getAccountByEmail(auth.getName());
+            if (account.isCompanyAccount()){
+                delivery.setPaid(true);
+                delivery.setPaymentDate(new Date());
+            }
             delivery.setSender(account.getOwner());
             delivery.setSenderAddress(account.getHomeAddress());
             if (addressService.existsAddress(delivery.getReceiverAddress())) {
