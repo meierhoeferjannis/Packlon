@@ -34,7 +34,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(ALLOW_ACCESS_WITHOUT_AUTHENTICATION)
-                .permitAll().anyRequest().authenticated();
+                .permitAll().anyRequest().authenticated()
+                .and()
+                .csrf().disable()
+                .cors().disable();
         http
                 .formLogin()
                 .loginPage("/login").permitAll()

@@ -43,18 +43,7 @@ public class RegistrationController {
         if (accountService.existsAccountWithEmail(account.getEmail())) {
             valid = false;
         }
-     /*   if (firstName.length() < 3 || firstName.trim().isEmpty()) {
-            model.addAttribute(" firstNameErrorMessage", "Firstname has to be longer than 3 letters");
-            valid = false;
-        }
-
-        if (lastName.length() < 3 || lastName.trim().isEmpty()) {
-            valid = false;
-            model.addAttribute("lastNameErrorMessage", "Lastname has to be longer than 3 letters");
-        }
-        */
-
-        if (!valid)
+           if (!valid)
             return "index";
 
         Customer customer = new Customer();

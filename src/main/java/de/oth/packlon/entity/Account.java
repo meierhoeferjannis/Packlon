@@ -15,6 +15,8 @@ public class Account extends SingelIdEntity<Long> implements UserDetails {
     private String email;
     private String phone;
     private String password;
+    private String company;
+    private boolean isCompanyAccount;
     @OneToOne
     private Customer owner;
     @ManyToMany
@@ -118,6 +120,22 @@ public class Account extends SingelIdEntity<Long> implements UserDetails {
 
     public void setOwner(Customer owner) {
         this.owner = owner;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public boolean isCompanyAccount() {
+        return isCompanyAccount;
+    }
+
+    public void setCompanyAccount(boolean companyAccount) {
+        isCompanyAccount = companyAccount;
     }
 
     public void addAccountRole(AccountRole accountRole) {

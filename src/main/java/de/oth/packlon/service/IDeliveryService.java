@@ -24,7 +24,7 @@ public interface IDeliveryService {
 
     Delivery updateDelivery(Delivery delivery);
 
-    long requestDelivery(Delivery delivery, Account account) throws DeliveryRequestException;
+    long requestDelivery(Delivery delivery ) throws DeliveryRequestException;
 
     Delivery payDelivery(Delivery delivery, String username, String password) throws JsonProcessingException;
 

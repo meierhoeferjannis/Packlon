@@ -21,6 +21,8 @@ import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -112,29 +114,31 @@ public class DeliveryService implements IDeliveryService {
 
     @Override
     @Transactional
-    public long requestDelivery(Delivery delivery, Account account) throws DeliveryRequestException {
+    public long requestDelivery(Delivery delivery ) throws DeliveryRequestException {
         try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Account account = accountService.getAccountByEmail(auth.getName());
             Delivery newDelivery = new Delivery();
-            if (newDelivery.getSenderAddress() == null) {
+            if (delivery.getSenderAddress() == null) {
                 newDelivery.setSenderAddress(account.getHomeAddress());
             } else {
-                if (addressService.existsAddress(newDelivery.getSenderAddress())) {
-                    newDelivery.setSenderAddress(addressService.getAddress(newDelivery.getSenderAddress()));
+                if (addressService.existsAddress(delivery.getSenderAddress())) {
+                    newDelivery.setSenderAddress(addressService.getAddress(delivery.getSenderAddress()));
                 } else {
-                    newDelivery.setSenderAddress(addressService.createAddress(newDelivery.getSenderAddress()));
+                    newDelivery.setSenderAddress(addressService.createAddress(delivery.getSenderAddress()));
                 }
             }
-            if (addressService.existsAddress(newDelivery.getReceiverAddress())) {
-                newDelivery.setReceiverAddress(addressService.getAddress(newDelivery.getReceiverAddress()));
+            if (addressService.existsAddress(delivery.getReceiverAddress())) {
+                newDelivery.setReceiverAddress(addressService.getAddress(delivery.getReceiverAddress()));
             } else {
-                newDelivery.setReceiverAddress(addressService.createAddress(newDelivery.getReceiverAddress()));
+                newDelivery.setReceiverAddress(addressService.createAddress(delivery.getReceiverAddress()));
             }
-            if (newDelivery.getSender() == null) {
+            if (delivery.getSender() == null) {
                 newDelivery.setSender(account.getOwner());
             } else {
-                newDelivery.setSender(customerService.getCustomerByName(newDelivery.getSender()));
+                newDelivery.setSender(customerService.getCustomerByName(delivery.getSender()));
             }
-            newDelivery.setReceiver(customerService.getCustomerByName(newDelivery.getReceiver()));
+            newDelivery.setReceiver(customerService.getCustomerByName(delivery.getReceiver()));
             for (LineItem item : delivery.getLineItemList()) {
                 if (item.getAmount() != 0) {
                     LineItem lineItem = new LineItem(item.getAmount(), packService.getPackBySize(item.getPack().getSize()));
