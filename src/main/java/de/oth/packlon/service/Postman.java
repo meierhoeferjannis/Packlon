@@ -67,6 +67,8 @@ public class Postman {
             for (Delivery item: onTheWayDeliveries){
                 item.addStatus(new Status("Your Delivery was succesfully deliverd"));
                 deliveryService.updateDelivery(item);
+                if (item.isCashOnDelivery())
+                    deliveryService.cashOnDelivery(item);
             }
             onTheWayDeliveries.clear();
         }

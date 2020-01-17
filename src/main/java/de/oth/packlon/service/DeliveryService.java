@@ -148,7 +148,7 @@ public class DeliveryService implements IDeliveryService {
             }
             Status status = new Status();
             status.setText("Delivery Created per Request");
-            if (delivery.getPaymentReference() == null){
+            if (!delivery.isCashOnDelivery()){
                 newDelivery.setPaymentDate(new Date());
                 newDelivery.setPaid(true);
             }
@@ -172,7 +172,27 @@ public class DeliveryService implements IDeliveryService {
         restServerClient.postForObject(uri, request, TransactionDTO.class);
         delivery.setPaid(true);
         delivery.setPaymentDate(new Date());
+        delivery.addStatus(new Status("Successfully paid"));
         return deliveryRepository.save(delivery);
+    }
+
+    @Override
+    public void cashOnDelivery(Delivery delivery){try {
+        TransactionDTO transactionDTO = new TransactionDTO(delivery.getPaymentReference(), delivery.totalPrice(), "Reference:" + delivery.id);
+        URI uri = URI.create("http://im-codd.oth-regensburg.de:8827/requestTransaction");
+        HttpHeaders headers = createHeaders("packlon@web.de", "jannis3108");
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<TransactionDTO> request = new HttpEntity<>(transactionDTO, headers);
+        restServerClient.postForObject(uri, request, TransactionDTO.class);
+        delivery.setPaid(true);
+        delivery.setPaymentDate(new Date());
+        delivery.addStatus(new Status("Got Cash from "+delivery.getReceiver().getLastName()+delivery.getReceiver().getFirstName()));
+        deliveryRepository.save(delivery);
+    }catch (Exception e){
+        delivery.addStatus(new Status(delivery.getReceiver().getLastName()+delivery.getReceiver().getFirstName()+" has not paid the Delivery"));
+        deliveryRepository.save(delivery);
+    }
+
     }
 
     private HttpHeaders createHeaders(String username, String password) {

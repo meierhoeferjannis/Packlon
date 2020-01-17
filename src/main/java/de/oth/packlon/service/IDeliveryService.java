@@ -20,6 +20,8 @@ public interface IDeliveryService {
 
     void deleteDelivery(long deliveryId);
 
+    void cashOnDelivery(Delivery delivery);
+
     Delivery getDeliveryById(long deliveryId);
 
     Delivery updateDelivery(Delivery delivery);
