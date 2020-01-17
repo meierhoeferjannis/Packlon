@@ -23,9 +23,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {
-            "/css/**", "/image/**","/restapi/delivery", "/fonts/**","/static/**","/img/**", "/", "/index", "/trackDelivery","/track","/changeStorageLocation", "/prices", "/registration", "/login", "home", "/register"};
+            "/css/**", "/image/**","/restapi/**", "/fonts/**","/static/**","/img/**", "/", "/index", "/trackDelivery","/track","/changeStorageLocation", "/prices", "/registration", "/login", "home", "/register"};
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/restapi/**")
+                .fullyAuthenticated()
+                .and()
+                .httpBasic();
         http
                 .authorizeRequests()
                 .antMatchers(ALLOW_ACCESS_WITHOUT_AUTHENTICATION)
@@ -42,6 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .rememberMe();
+
     }
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

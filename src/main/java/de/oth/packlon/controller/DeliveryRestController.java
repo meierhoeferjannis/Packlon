@@ -24,9 +24,10 @@ public class DeliveryRestController {
     }
 
     @RequestMapping(value = "/restapi/delivery", method = RequestMethod.POST)
-    public ResponseEntity<Long> postDelivery(@RequestBody Delivery delivery, Principal principal) throws DeliveryRequestException {
-        long ret = deliveryService.requestDelivery(delivery, accountService.getAccountByEmail(principal.getName()));
-        return new ResponseEntity<>(ret, HttpStatus.OK);
+    public long postDelivery(@RequestBody Delivery delivery) throws DeliveryRequestException {
+        System.out.println("Hallo");
+        long ret = deliveryService.requestDelivery(delivery, accountService.getAccountByEmail("test@web.de"));
+        return ret;
     }
 
 }

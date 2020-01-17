@@ -44,6 +44,15 @@
 
     </div> <!-- row.// -->
 
+    <div class="row ">
+        <!--/*@thymesVar id="error" type="string"*/-->
+        <div class="col-12 center-block text-center" scope="row" colspan="4">
+
+            <div th:if="${error != null}" class="alert alert-danger" role="alert" th:text="${error}">
+
+            </div>
+        </div>
+    </div>
 </div>
 <!--container end.//-->
 
