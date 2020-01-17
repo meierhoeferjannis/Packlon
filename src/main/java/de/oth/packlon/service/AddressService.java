@@ -4,6 +4,7 @@ package de.oth.packlon.service;
 import de.oth.packlon.entity.Address;
 import de.oth.packlon.repository.AddressRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AddressService implements IAddressService {
@@ -14,6 +15,7 @@ public class AddressService implements IAddressService {
     }
 
     @Override
+    @Transactional
     public Address createAddress(Address address) {
         Address ret = addressRepository.save(address);
         return ret;

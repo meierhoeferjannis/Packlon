@@ -3,6 +3,7 @@ package de.oth.packlon.service;
 import de.oth.packlon.entity.Customer;
 import de.oth.packlon.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
+    @Transactional
     public Customer mergeCustomer(Customer customer) {
         Customer ret = customerRepository.save(customer);
         return ret;
@@ -22,6 +24,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
+    @Transactional
     public Customer getCustomerByName(Customer cust) {
         Optional<Customer> customer = customerRepository.findByFirstNameAndLastName(cust.getFirstName(), cust.getLastName());
 

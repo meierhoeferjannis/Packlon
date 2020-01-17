@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import javax.sound.midi.Receiver;
@@ -65,6 +66,7 @@ public class DeliveryService implements IDeliveryService {
     }
 
     @Override
+    @Transactional
     public Delivery createDelivery(Delivery delivery) {
         delivery.setReceiver(customerService.getCustomerByName(delivery.getReceiver()));
         delivery.setSender(customerService.getCustomerByName(delivery.getSender()));
@@ -109,6 +111,7 @@ public class DeliveryService implements IDeliveryService {
     }
 
     @Override
+    @Transactional
     public long requestDelivery(Delivery delivery, Account account) throws DeliveryRequestException {
         try {
             Delivery newDelivery = new Delivery();
