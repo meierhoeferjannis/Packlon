@@ -2,13 +2,14 @@ package de.oth.packlon.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Delivery extends SingelIdEntity<Long> {
+public class Delivery extends SingelIdEntity<Long> implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Date submitted;

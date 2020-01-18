@@ -1,10 +1,11 @@
 package de.oth.packlon.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Embeddable
-public class Address extends SingelIdEntity<Long> {
+public class Address extends SingelIdEntity<Long> implements Serializable {
 
     private String street;
     private String country;

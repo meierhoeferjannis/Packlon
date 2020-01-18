@@ -1,9 +1,10 @@
 package de.oth.packlon.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class LineItem extends SingelIdEntity<Long> {
+public class LineItem extends SingelIdEntity<Long> implements Serializable {
 
     private int amount;
     private int price;

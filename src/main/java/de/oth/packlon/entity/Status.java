@@ -1,10 +1,11 @@
 package de.oth.packlon.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Status extends SingelIdEntity<Long> {
+public class Status extends SingelIdEntity<Long> implements Serializable {
 
     private String text;
     @Temporal(TemporalType.DATE)
