@@ -75,8 +75,14 @@ public class TrackDeliveryController {
     public String track(@ModelAttribute("deliveryId") long deliveryId, Model model,@RequestParam(name = "pageLocation") Optional<Integer> pageLocation) {
 
         try {
-            model.addAttribute("deliveryStatus", deliveryService.getDeliveryById(deliveryId).getStatusList());
-            addLocationPage(model,pageLocation.orElse(1));
+            Delivery delivery = deliveryService.getDeliveryById(deliveryId);
+            model.addAttribute("deliveryStatus", delivery.getStatusList());
+            if (delivery.getDelivered() == null){
+                addLocationPage(model,pageLocation.orElse(1));
+            }
+            else {
+                addLocationPage(model,pageLocation.orElse(0));
+            }
             model.addAttribute("deliveryId", deliveryId);
         } catch (Exception e) {
             model.addAttribute("deliveryStatus", new ArrayList<Status>());
@@ -101,7 +107,9 @@ public class TrackDeliveryController {
                 + storageLocation.getAddress().getCity() + " "
                 + storageLocation.getAddress().getPostCode() + " "
                 + storageLocation.getAddress().getStreet() + " "
-                + storageLocation.getAddress().getAddition());
+                );
+        if(storageLocation.getAddress().getAddition()!= null)
+           status.setText( status.getText()+storageLocation.getAddress().getAddition());
         delivery.addStatus(status);
         deliveryService.updateDelivery(delivery);
         model.addAttribute("response", "Your delivery with " + deliveryId + " was redirected to the Storage Location" + storageLocation.getName());
