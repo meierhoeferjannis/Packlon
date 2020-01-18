@@ -169,7 +169,7 @@ public class DeliveryService implements IDeliveryService {
         HttpHeaders headers = createHeaders(username, password);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<TransactionDTO> request = new HttpEntity<>(transactionDTO, headers);
-        restServerClient.postForObject(uri, request, TransactionDTO.class);
+        restServerClient.postForObject(uri, request, String.class);
         delivery.setPaid(true);
         delivery.setPaymentDate(new Date());
         delivery.addStatus(new Status("Successfully paid"));
@@ -183,7 +183,7 @@ public class DeliveryService implements IDeliveryService {
         HttpHeaders headers = createHeaders("packlon@web.de", "jannis3108");
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<TransactionDTO> request = new HttpEntity<>(transactionDTO, headers);
-        restServerClient.postForObject(uri, request, TransactionDTO.class);
+        restServerClient.postForObject(uri, request, String.class);
         delivery.setPaid(true);
         delivery.setPaymentDate(new Date());
         delivery.addStatus(new Status("Got Cash from "+delivery.getReceiver().getLastName()+delivery.getReceiver().getFirstName()));
@@ -231,7 +231,7 @@ public class DeliveryService implements IDeliveryService {
 
         pdfStamper.close();
         InputStream in = new FileInputStream(delivery.id + ".pdf");
-        Files.delete(Path.of(deliveryId+".pdf"));
+
         return in;
     }
 
@@ -271,6 +271,9 @@ public class DeliveryService implements IDeliveryService {
         table.addCell(delivery.getSenderAddress().getAddition());
         table.addCell("Addition:");
         table.addCell(delivery.getReceiverAddress().getAddition());
+        table.completeRow();
+        table.addCell("DeliveryId:");
+        table.addCell(delivery.getId().toString());
         table.completeRow();
 
     }

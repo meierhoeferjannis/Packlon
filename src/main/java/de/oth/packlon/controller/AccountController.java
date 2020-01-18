@@ -117,6 +117,10 @@ public class AccountController {
 
             IOUtils.copy(is, response.getOutputStream());
             response.flushBuffer();
+            is.close();
+
+            Files.delete(Path.of(deliveryId+".pdf"));
+            Files.delete(Path.of(deliveryId+"decrypted.pdf"));
         } catch (IOException | DocumentException ex) {
             System.out.println(ex.getMessage());
         }
