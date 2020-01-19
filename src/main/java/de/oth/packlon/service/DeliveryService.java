@@ -118,6 +118,8 @@ public class DeliveryService implements IDeliveryService {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             Account account = accountService.getAccountByEmail(auth.getName());
+            if(!account.isCompanyAccount())
+                throw new DeliveryRequestException("Just Companies are Authorized");
             Delivery newDelivery = new Delivery();
             if (delivery.getSenderAddress() == null) {
                 newDelivery.setSenderAddress(account.getHomeAddress());

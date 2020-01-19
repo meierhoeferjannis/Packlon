@@ -19,7 +19,7 @@ public class StatusRestController {
         this.deliveryService = deliveryService;
     }
     @RequestMapping(value = "/restapi/status/{deliveryid}", method = RequestMethod.GET)
-    public ResponseEntity<List<Status>> postDelivery(@PathVariable("deliveryid") long deliveryid)   {
+    public ResponseEntity<List<Status>> getStatus(@PathVariable("deliveryid") long deliveryid)   {
         try {
             Delivery delivery = deliveryService.getDeliveryById(deliveryid);
             return new ResponseEntity<>(delivery.getStatusList(), HttpStatus.OK);
@@ -28,4 +28,5 @@ public class StatusRestController {
         }
 
     }
+
 }
