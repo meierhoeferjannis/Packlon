@@ -16,6 +16,8 @@ public class Delivery extends SingelIdEntity<Long> implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date delivered;
 
+    private int cashOndeliveryAmount;
+
     @ManyToOne
     private Customer receiver;
     @ManyToOne
