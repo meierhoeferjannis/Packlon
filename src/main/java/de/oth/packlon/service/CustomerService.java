@@ -19,6 +19,7 @@ public class CustomerService implements ICustomerService {
     @Transactional
     public Customer mergeCustomer(Customer customer) {
         Customer ret = customerRepository.save(customer);
+
         return ret;
 
     }

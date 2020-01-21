@@ -88,6 +88,13 @@
 			<artifactId>bcprov-jdk15on</artifactId>
 			<version>1.56</version>
 		</dependency>
+		<dependency>
+			<groupId>de.oth</groupId>
+<artifactId>paypaul</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/libs/paypaul-dtos.jar</systemPath>
+		</dependency>
 
 	</dependencies>
 
