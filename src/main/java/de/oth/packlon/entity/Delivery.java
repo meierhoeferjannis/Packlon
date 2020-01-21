@@ -46,6 +46,14 @@ public class Delivery extends SingelIdEntity<Long> implements Serializable {
 
     }
 
+    public int getCashOndeliveryAmount() {
+        return cashOndeliveryAmount;
+    }
+
+    public void setCashOndeliveryAmount(int cashOndeliveryAmount) {
+        this.cashOndeliveryAmount = cashOndeliveryAmount;
+    }
+
     public int totalPrice() {
         int total = 0;
         if (lineItemList.isEmpty())
