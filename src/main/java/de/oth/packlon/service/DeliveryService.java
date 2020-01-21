@@ -154,6 +154,10 @@ public class DeliveryService implements IDeliveryService {
                 newDelivery.setPaymentDate(new Date());
                 newDelivery.setPaid(true);
             }
+            else{
+                newDelivery.setCashOndeliveryAmount(delivery.getCashOndeliveryAmount());
+                newDelivery.setCashOnDelivery(true);
+            }
 
             newDelivery.addStatus(status);
             return deliveryRepository.save(newDelivery).id;
@@ -180,7 +184,7 @@ public class DeliveryService implements IDeliveryService {
 
     @Override
     public void cashOnDelivery(Delivery delivery){try {
-        TransactionDTO transactionDTO = new TransactionDTO(delivery.getPaymentReference(), delivery.totalPrice(), "Reference:" + delivery.id);
+        TransactionDTO transactionDTO = new TransactionDTO(delivery.getPaymentReference(), delivery.getCashOndeliveryAmount(), "Reference:" + delivery.id);
         URI uri = URI.create("http://im-codd.oth-regensburg.de:8827/requestTransaction");
         HttpHeaders headers = createHeaders("packlon@web.de", "jannis3108");
         headers.setContentType(MediaType.APPLICATION_JSON);
